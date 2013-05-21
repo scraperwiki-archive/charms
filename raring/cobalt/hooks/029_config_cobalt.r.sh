@@ -1,9 +1,6 @@
 #!/bin/sh
 set -e
 
-export NODE_ENV=staging
-export COBALT_PORT=/var/run/cobalt.socket
-
 # See http://superuser.com/questions/402794/writing-simple-upstart-script
 cat <<EOF > /etc/init/cobalt.conf
 start on runlevel [2345]
