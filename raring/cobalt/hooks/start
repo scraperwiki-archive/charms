@@ -1,0 +1,3 @@
+#!/bin/sh
+open-port 443
+open-port 80

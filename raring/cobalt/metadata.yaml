@@ -1,0 +1,5 @@
+name: cobalt
+summary: "Box execution service"
+maintainer: "ScraperWiki <developers@scraperwiki.com>"
+description: |
+  Installs Cobalt, nginx and dumptruck-web, relates to Custard.

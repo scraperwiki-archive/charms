@@ -1,0 +1,2 @@
+#!/bin/sh
+sh hooks/029_config_cobalt.r.sh

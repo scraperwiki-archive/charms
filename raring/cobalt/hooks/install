@@ -1,0 +1,30 @@
+#!/bin/sh
+
+# Need to install common software here
+apt-get install -qq git
+
+juju-log "Installing oidentd..."
+sh hooks/080_install_oidentd.r.sh
+juju-log "Installing node..."
+sh hooks/027_install_node.r.sh
+
+# Prepare chroot stuff
+juju-log "Installing pam_chroot environment..."
+sh hooks/005_install_pam_chroot.r.sh
+juju-log "Setting up cron for chroot environment..."
+sh hooks/025_cron_for_boxes.r.sh
+juju-log "Hiding process IDs from chrooted users..."
+sh hooks/060_hide_process_ids.r.sh
+juju-log "Setting up mail for chroot environment..."
+sh hooks/070_setup_chroot_mail.r.sh
+
+# Setup cobalt
+juju-log "Setting up nginx..."
+sh hooks/015_setup_nginx.r.sh
+juju-log "Setting up cobalt..."
+sh hooks/030_setup_cobalt.r.sh
+juju-log "Setting up sqlite API..."
+sh hooks/040_setup_sqlite_api.r.sh
+
+juju-log "Installing minimal box software..."
+sh hooks/100_box_minimal_install.r.sh

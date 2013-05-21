@@ -1,0 +1,27 @@
+#!/bin/sh
+echo "$PAM_USER login" >> /tmp/status
+
+case "$PAM_USER" in
+  "root" )
+     echo "root ignored" >> /tmp/status
+     exit 0
+  ;;
+esac
+
+mkdir -p /jails/$PAM_USER > /dev/null 2>&1
+
+trymount () {
+  # remount or mount a filesystem.
+  # pass arguments as if for a mount.  Example:
+  # trymount --bind /var/spool/cron/crontabs /jails/$PAM_USER/var/spool/cron/crontabs
+  eval last=\${$#}
+  mount "$last" -o remount ||
+  mount "$@"
+} >> /var/log/mount.log 2>&1
+
+trymount --bind /opt/basejail /jails/$PAM_USER
+trymount --bind /var/spool/cron/crontabs /jails/$PAM_USER/var/spool/cron/crontabs
+trymount --bind /home/$PAM_USER /jails/$PAM_USER/home
+trymount --bind /dev /jails/$PAM_USER/dev
+trymount devpts -t devpts /jails/$PAM_USER/dev/pts
+trymount proc -t proc /jails/$PAM_USER/proc
