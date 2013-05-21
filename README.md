@@ -13,3 +13,7 @@ Then one person needs to bootstrap (which should set up a server
 and store stuff in a shared S3 bucket):
 
     juju bootstrap
+
+## RESOURCES
+
+Might be worth reading the juju ["Get Started" guide](https://juju.ubuntu.com/get-started/).
