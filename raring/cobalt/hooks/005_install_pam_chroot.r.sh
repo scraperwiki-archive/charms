@@ -5,7 +5,7 @@
 # Only expected to work when run as root on Ubuntu.
 
 set -e
-export HOOKS_HOME=$(pwd)
+export HOOKS_HOME="$(pwd)/hooks"
 
 pam_install() {
   # Enable PAM modules

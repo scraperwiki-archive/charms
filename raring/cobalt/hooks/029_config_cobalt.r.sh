@@ -29,7 +29,7 @@ cd /opt/cobalt
 git pull
 
 . ./activate
-npm install --production 2 || true
+npm install --production 2>&1 || true
 
 # redirect event stderr to /dev/null, as we don't care about errors on stop
 service cobalt stop >/dev/null 2>&1 || true

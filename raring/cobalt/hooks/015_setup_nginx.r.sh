@@ -6,7 +6,7 @@ ROOT_DIR=${ROOT_DIR:-/}
 set_nginx_config() {
   ROOT_DIR=$1
 
-  # TODO: need to get-config ssl certs
+  # TODO: this yields empty files
   config-get SSL_CRT > ${ROOT_DIR}etc/nginx/star_scraperwiki_com.crt
   config-get SSL_KEY > ${ROOT_DIR}etc/nginx/star_scraperwiki_com.key
 
