@@ -1,7 +1,7 @@
 #!/bin/sh
 # David Jones, ScraperWiki Limited.
 
-export DEBIAN_FRONTEND=noninteractive
+set -e
 
 # So that cron uses PAM to chroot into each box when running cronjobs.
 if ! grep 'session required pam_script' /etc/pam.d/cron > /dev/null

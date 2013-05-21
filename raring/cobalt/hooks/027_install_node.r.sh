@@ -1,5 +1,6 @@
 #!/bin/sh
-export DEBIAN_FRONTEND=noninteractive
+set -e
+
 apt-get install -qq build-essential
 apt-get install -qq python-software-properties
 add-apt-repository -y ppa:chris-lea/node.js

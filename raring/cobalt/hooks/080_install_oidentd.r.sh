@@ -1,5 +1,6 @@
 # Expect this to complain because it's unable to create a userid
 # for oidentd; that's okay, we run as nobody.
+set -e
 apt-get -q -q install oidentd
 
 # This file mostly configures oidentd to run as user oidentd.

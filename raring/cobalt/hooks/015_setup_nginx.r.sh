@@ -1,12 +1,12 @@
 #!/bin/sh
-# Lithium hook to setup nginx, including fcgiwrap which is used by sqlite API.
+set -e
 
-export DEBIAN_FRONTEND=noninteractive
 ROOT_DIR=${ROOT_DIR:-/}
 
 set_nginx_config() {
   ROOT_DIR=$1
 
+  # TODO: need to get-config ssl certs
   cp keys/* ${ROOT_DIR}etc/nginx
 
   cp config/nginx/boxes ${ROOT_DIR}etc/nginx/sites-available/boxes

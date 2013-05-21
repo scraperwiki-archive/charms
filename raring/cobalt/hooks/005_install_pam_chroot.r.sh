@@ -4,8 +4,7 @@
 
 # Only expected to work when run as root on Ubuntu.
 
-
-export DEBIAN_FRONTEND=noninteractive
+set -e
 export HOOKS_HOME=$(pwd)
 
 pam_install() {

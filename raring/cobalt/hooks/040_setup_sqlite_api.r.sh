@@ -1,6 +1,5 @@
 #!/bin/sh
-export DEBIAN_FRONTEND=noninteractive
-
+set -e
 # When testing, this is picked up from the environment.
 ROOT_DIR=${ROOT_DIR:-/}
 

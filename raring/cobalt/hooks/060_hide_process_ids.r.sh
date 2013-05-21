@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 ROOT_DIR=${ROOT_DIR:-/}
 
 write_fstab() {
