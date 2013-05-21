@@ -7,14 +7,15 @@ set_nginx_config() {
   ROOT_DIR=$1
 
   # TODO: need to get-config ssl certs
-  cp keys/* ${ROOT_DIR}etc/nginx
+  config-get SSL_CRT > ${ROOT_DIR}etc/nginx/star_scraperwiki_com.crt
+  config-get SSL_KEY > ${ROOT_DIR}etc/nginx/star_scraperwiki_com.key
 
-  cp config/nginx/boxes ${ROOT_DIR}etc/nginx/sites-available/boxes
+  cp hooks/config/nginx/boxes ${ROOT_DIR}etc/nginx/sites-available/boxes
 
   mkdir -p ${ROOT_DIR}etc/nginx/lua
-  cp config/nginx/lua/publish_token_access.lua ${ROOT_DIR}etc/nginx/lua/publish_token_access.lua
-  cp config/nginx/lua/callback_prefix.lua ${ROOT_DIR}etc/nginx/lua/callback_prefix.lua
-  cp config/nginx/lua/callback_suffix.lua ${ROOT_DIR}etc/nginx/lua/callback_suffix.lua
+  cp hooks/config/nginx/lua/publish_token_access.lua ${ROOT_DIR}etc/nginx/lua/publish_token_access.lua
+  cp hooks/config/nginx/lua/callback_prefix.lua ${ROOT_DIR}etc/nginx/lua/callback_prefix.lua
+  cp hooks/config/nginx/lua/callback_suffix.lua ${ROOT_DIR}etc/nginx/lua/callback_suffix.lua
 
   ln -fs ${ROOT_DIR}etc/nginx/sites-available/boxes ${ROOT_DIR}etc/nginx/sites-enabled/boxes
 
