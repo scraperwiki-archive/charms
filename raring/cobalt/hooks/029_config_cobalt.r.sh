@@ -12,10 +12,13 @@ script
     export COBALT_PORT=$(config-get COBALT_PORT)
     export CO_AVOID_BOX_CHECK=$(config-get CO_AVOID_BOX_CHECK)
     export NODE_ENV=$(config-get NODE_ENV)
+    export NODETIME_KEY=$(config-get $NODETIME_KEY)
+    export CO_NODETIME_APP=$(config-get $CO_NODETIME_APP)
     cd /opt/cobalt &&
     . ./activate &&
     echo "Cobalt starting on port or socket $COBALT_PORT" &&
-    coffee code/serv.coffee
+    # "exec" is required so that we get the correct PID.
+    exec coffee code/serv.coffee
 end script
 
 post-stop script

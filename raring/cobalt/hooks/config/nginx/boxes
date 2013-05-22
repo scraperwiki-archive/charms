@@ -4,9 +4,9 @@ server {
   listen 80;
   listen 443 ssl;
   server_name $hostname box.scraperwiki.com;
-  # TODO: enable
-  #ssl_certificate      star_scraperwiki_com.crt;
-  #ssl_certificate_key  star_scraperwiki_com.key;
+
+  ssl_certificate      star_scraperwiki_com.crt;
+  ssl_certificate_key  star_scraperwiki_com.key;
 
   index index.html index.htm;
   more_set_headers "Access-Control-Allow-Origin: *";

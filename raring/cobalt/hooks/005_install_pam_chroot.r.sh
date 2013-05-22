@@ -20,7 +20,7 @@ pam_configure() {
 
   # Configure chroot with a group
   echo '@databox                /jails/%u' > /etc/security/chroot.conf
-  grep ^databox: /etc/group >/dev/null 2>&1 || groupadd databox
+  grep ^databox: /etc/group >/dev/null 2>&1 || groupadd -g 1000 databox
 
   mkdir -p /jails
 }
