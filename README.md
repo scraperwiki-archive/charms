@@ -18,10 +18,12 @@ and store stuff in a shared S3 bucket):
 
 To deploy a server:
 
-    juju deploy --repository=sw/charms local:raring/cobalt
+    juju deploy --upgrade --config ~/sw/charm-secrets/config/cobalt-dev.yaml --repository ~/sw/charms local:raring/cobalt
 
 
 
 ## RESOURCES
 
 Might be worth reading the juju ["Get Started" guide](https://juju.ubuntu.com/get-started/).
+
+See also the intranet page.
