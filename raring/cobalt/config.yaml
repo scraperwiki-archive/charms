@@ -1,0 +1,26 @@
+options:
+  CU_DB:
+    type: string
+    description: "MongoDB connection string"
+  NODE_ENV:
+    default: staging
+    type: string
+    description: "Node environment"
+  COBALT_PORT:
+    type: string
+    description: "Port/socket that Cobalt will run on"
+  CO_AVOID_BOX_CHECK:
+    type: string
+    description: "If set, avoids box check so local development works"
+  NODETIME_KEY:
+    type: string
+    description: "Nodetime.com API key (profiling tool)"
+  CO_NODETIME_APP:
+    type: string
+    description: "Name of the Nodetime app"
+  SSL_CRT:
+    description: "SSL certificate"
+    type: string
+  SSL_KEY:
+    description: "SSL private key"
+    type: string

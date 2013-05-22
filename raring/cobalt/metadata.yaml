@@ -3,29 +3,3 @@ summary: "Box execution service"
 maintainer: "ScraperWiki <developers@scraperwiki.com>"
 description: |
   Installs Cobalt, nginx and dumptruck-web, relates to Custard.
-options:
-  CU_DB:
-    type: str
-    description: "MongoDB connection string"
-  NODE_ENV:
-    default: staging
-    type: str
-    description: "Node environment"
-  COBALT_PORT:
-    type: str
-    description: "Port/socket that Cobalt will run on"
-  CO_AVOID_BOX_CHECK:
-    type: str
-    description: "If set, avoids box check so local development works"
-  NODETIME_KEY:
-    type: str
-    description: "Nodetime.com API key (profiling tool)"
-  CO_NODETIME_APP:
-    type: str
-    description: "Name of the Nodetime app"
-  SSL_CRT:
-    description: "SSL certificate"
-    type: str
-  SSL_KEY:
-    description: "SSL private key"
-    type: str
