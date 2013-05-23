@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 export DEBIAN_FRONTEND=noninteractive
 juju-log "Configuring cobalt..."
 sh hooks/029_config_cobalt.r.sh
