@@ -26,9 +26,9 @@ debian_minimal () {
 
   blue "Upgrading Ubuntu packages, for security and update fixes"
   cat <<END >/etc/apt/sources.list
-deb http://archive.ubuntu.com/ubuntu precise main universe
-deb http://archive.ubuntu.com/ubuntu precise-updates main universe
-deb http://archive.ubuntu.com/ubuntu precise-security main universe
+deb http://archive.ubuntu.com/ubuntu $(lsb_release -c -s) main universe
+deb http://archive.ubuntu.com/ubuntu $(lsb_release -c -s)-updates main universe
+deb http://archive.ubuntu.com/ubuntu $(lsb_release -c -s)-security main universe
 END
   apt-get update --assume-yes --quiet --quiet
   apt-get dist-upgrade --assume-yes --quiet --quiet
