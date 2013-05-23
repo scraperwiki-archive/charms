@@ -3,6 +3,8 @@ export DEBIAN_FRONTEND=noninteractive
 # Need to install common software here
 apt-get install -qq git
 
+juju-log "Rehoming ubuntu user..."
+sh hooks/001_rehome_ubuntu_user.r.sh
 juju-log "Installing oidentd..."
 sh hooks/080_install_oidentd.r.sh
 juju-log "Installing node..."
