@@ -24,3 +24,6 @@ options:
   SSL_KEY:
     description: "SSL private key"
     type: string
+  EBS_VOLUME:
+    description: "EBS volume to attach to"
+    type: string
