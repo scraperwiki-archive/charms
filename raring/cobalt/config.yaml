@@ -18,6 +18,9 @@ options:
   CO_NODETIME_APP:
     type: string
     description: "Name of the Nodetime app"
+  ALLOWED_IP:
+    type: string
+    description: "List of allowed IPs, one per line"
   SSL_CRT:
     description: "SSL certificate"
     type: string
