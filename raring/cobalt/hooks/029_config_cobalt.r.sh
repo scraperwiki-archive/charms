@@ -29,10 +29,18 @@ end script
 
 EOF
 
+# Write ALLOWED_IP to alowed-ip file for cobalt to use.
+mkdir -p /etc/cobalt
+content=$(config-get ALLOWED_IP)
+case $content in
+  ('') ;; # avoid writing empty file
+  (*) printf '%s' "$content" > /etc/cobalt/allowed-ip ;;
+esac
+
 
 # Update what we have
 cd
-git pull || true
+git pull origin 20130523-ec2 || true
 
 . ./activate || true
 npm install --production 2>&1 || true
