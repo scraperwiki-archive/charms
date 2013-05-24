@@ -41,6 +41,11 @@ makejail() {
   mkdir -p "$BASEJAIL/var/spool/cron/crontabs"
   chmod 0 "$BASEJAIL/var/spool/cron/crontabs"
 
+  # avoid pam_script erroring on session close
+  mkdir -p /opt/basejail/usr/share/libpam-script
+  echo '#!/bin/sh' > /opt/basejail/usr/share/libpam-script/pam_script_ses_close
+  chmod 755 /opt/basejail/usr/share/libpam-script/pam_script_ses_close
+
   touch /var/run/makejail.done
 }
 
