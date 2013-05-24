@@ -15,7 +15,7 @@ main () {
   write_fstab ${ROOT_DIR}
   write_rclocal ${ROOT_DIR}
 
-  mount /proc
+  mount /proc || true
 }
 
 main
