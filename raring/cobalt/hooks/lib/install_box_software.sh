@@ -72,12 +72,13 @@ rit () {
 debian_stuff () {
   # otherwise get message "debconf: delaying package configuration, since apt-utils is not installed" lots
   aptit apt-utils
+  aptit lsb-core lsb-base
 
   blue "Upgrading Ubuntu packages, for security and update fixes"
   cat <<END >/etc/apt/sources.list
-deb http://archive.ubuntu.com/ubuntu precise main universe
-deb http://archive.ubuntu.com/ubuntu precise-updates main universe
-deb http://archive.ubuntu.com/ubuntu precise-security main universe
+  deb http://archive.ubuntu.com/ubuntu $(lsb_release -c -s) main universe
+  deb http://archive.ubuntu.com/ubuntu $(lsb_release -c -s)-updates main universe
+  deb http://archive.ubuntu.com/ubuntu $(lsb_release -c -s)-security main universe
 END
   apt-get update --assume-yes --quiet --quiet
   apt-get dist-upgrade --assume-yes --quiet --quiet
@@ -112,7 +113,7 @@ END
   blue "Installing Java/Clojure debian packages"
   aptit openjdk-7-jre openjdk-7-jdk # needs /proc
   # aptit libhtmlunit-java # hmmm seems to need openjdk-6 :( leave until somebody asks
-  aptit clojure
+  aptit clojure1.4
 }
 
 debian_extras() {
