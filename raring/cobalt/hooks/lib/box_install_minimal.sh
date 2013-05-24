@@ -6,8 +6,6 @@
 set -e # exit on error
 #set -x # Useful for debugging, but not useful routinely.
 
-export DEBIAN_FRONTEND=noninteractive
-
 blue () {
     # Output a blue string.
     printf '\033[36m'

@@ -28,5 +28,9 @@ options:
     description: "SSL private key"
     type: string
   EBS_VOLUME:
-    description: "EBS volume to attach to"
+    description: "EBS volume to attach to (not currently used)"
+    type: string
+  INSTALL_ALL_PACKAGES:
+    default: "no"
+    description: "Install all the basejail packages for a live cobalt instance"
     type: string

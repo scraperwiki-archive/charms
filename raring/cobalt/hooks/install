@@ -32,3 +32,11 @@ sh hooks/040_setup_sqlite_api.r.sh
 
 juju-log "Installing minimal box software..."
 sh hooks/100_box_minimal_install.r.sh
+
+if ["$(config-get INSTALL_ALL_PACKAGES)" = "yes"]; then
+  juju-log "Installing all box packages"
+  sh hooks/006_populate_jail.r.sh
+
+  juju-log "Installing git daemon for tool git cache"
+  sh hooks/010_setup_git_daemon.r.sh
+fi
