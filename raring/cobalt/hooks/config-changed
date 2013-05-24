@@ -4,5 +4,5 @@ export DEBIAN_FRONTEND=noninteractive
 juju-log "Configuring cobalt..."
 sh hooks/029_config_cobalt.r.sh
 
-juju-log "Setting up nginx..."
-sh hooks/015_setup_nginx.r.sh
+juju-log "Configuring nginx..."
+sh hooks/015_config_nginx.r.sh
