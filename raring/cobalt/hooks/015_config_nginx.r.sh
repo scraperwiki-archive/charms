@@ -28,7 +28,7 @@ set_nginx_config() {
 
 main () {
   set_nginx_config "$ROOT_DIR"
-  service nginx reload >/dev/null
+  service nginx reload >/dev/null || service nginx start || true
 }
 
 main
