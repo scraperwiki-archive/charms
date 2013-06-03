@@ -149,6 +149,7 @@ python_extras() {
   # lots of useful data science tools
   pipit BeautifulSoup
   pipit beautifulsoup4
+  pipit bitly_api
   pipit cartodb
   pipit chardet
   pipit chromium_compact_language_detector
@@ -170,6 +171,7 @@ python_extras() {
   pipit jsonschema
   pipit markdown
   pipit mechanize
+  pipit messytables
   pipit ngram
   pipit networkx
   pipit openpyxl
@@ -275,7 +277,7 @@ ruby_extras() {
   gemit 0.1.0 polylines
   gemit 4.5.0 twitter
   gemit 1.2.0 dm-sqlite-adapter
-  gemit 2.0.3 scraperwiki
+  gemit 2.0.6 scraperwiki
   gemit 1.3.0 icalendar
   echo "Finished Ruby extras"
 }
