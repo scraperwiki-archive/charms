@@ -18,6 +18,8 @@ pam_configure() {
   cp $HOOKS_HOME/config/pam_script_ses_open /usr/share/libpam-script
   cp $HOOKS_HOME/config/pam_script_acct /usr/share/libpam-script
 
+  sed -i "s:{{STORAGE_DIR}}:${STORAGE_DIR}:" /usr/share/libpam-script/pam_script_ses_open
+
   # Configure chroot with a group
   echo '@databox                /jails/%u' > /etc/security/chroot.conf
   grep ^databox: /etc/group >/dev/null 2>&1 || groupadd -g 10000 databox
@@ -52,6 +54,7 @@ makejail() {
 copy_sshd_config() {
   f=/etc/ssh/sshd_config
   cp "${HOOKS_HOME}/config/sshd_config" ${f}
+  sed -i "s:{{STORAGE_DIR}}:${STORAGE_DIR}:" ${f}
 }
 
 

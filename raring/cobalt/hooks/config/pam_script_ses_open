@@ -21,7 +21,7 @@ trymount () {
 
 trymount --bind /opt/basejail /jails/$PAM_USER
 trymount --bind /var/spool/cron/crontabs /jails/$PAM_USER/var/spool/cron/crontabs
-trymount --bind /home/$PAM_USER /jails/$PAM_USER/home
+trymount --bind {{STORAGE_DIR}}/home/$PAM_USER /jails/$PAM_USER/home
 trymount --bind /dev /jails/$PAM_USER/dev
 trymount devpts -t devpts /jails/$PAM_USER/dev/pts
 trymount proc -t proc /jails/$PAM_USER/proc

@@ -2,15 +2,18 @@
 set -e
 
 export DEBIAN_FRONTEND=noninteractive
+export STORAGE_DIR=$(config-get CO_STORAGE_DIR)
+
 # Need to install common software here
 apt-get install -qq git
 
-juju-log "Rehoming ubuntu user..."
-sh hooks/001_rehome_ubuntu_user.r.sh
 juju-log "Installing oidentd..."
 sh hooks/080_install_oidentd.r.sh
 juju-log "Installing node..."
 sh hooks/027_install_node.r.sh
+
+juju-log "Linking passwd files to ${STORAGE_DIR}..."
+sh hooks/013_setup_global_passwd.r.sh
 
 # Prepare chroot stuff
 juju-log "Installing pam_chroot environment..."

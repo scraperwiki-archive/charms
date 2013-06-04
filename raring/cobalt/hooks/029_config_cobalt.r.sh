@@ -16,6 +16,7 @@ script
     export NODE_ENV=$(config-get NODE_ENV)
     export NODETIME_KEY=$(config-get NODETIME_KEY)
     export CO_NODETIME_APP="$(config-get CO_NODETIME_APP)"
+    export CO_STORAGE_DIR="$(config-get CO_STORAGE_DIR)"
     cd /opt/cobalt &&
     . ./activate &&
     echo "Cobalt starting on port or socket $COBALT_PORT" &&

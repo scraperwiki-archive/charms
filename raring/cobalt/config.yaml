@@ -34,3 +34,7 @@ options:
     default: "no"
     description: "Install all the basejail packages for a live cobalt instance"
     type: string
+  CO_STORAGE_DIR:
+    default: "/ebs"
+    description: "Where to store all cobalt data"
+    type: string
