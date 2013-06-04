@@ -21,6 +21,7 @@ debian_minimal () {
   # Needed, otherwise get the following message lots:
   # "debconf: delaying package configuration, since apt-utils is not installed"
   aptit apt-utils
+  aptit lsb-core lsb-base
 
   blue "Upgrading Ubuntu packages, for security and update fixes"
   cat <<END >/etc/apt/sources.list
