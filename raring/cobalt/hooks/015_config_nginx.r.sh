@@ -23,6 +23,10 @@ set_nginx_config() {
   # Edit /etc/init.d/fcgiwrap for number of children
   sed -i 's/^FCGI_CHILDREN.*$/FCGI_CHILDREN="20"/' ${ROOT_DIR}etc/init.d/fcgiwrap
 
+  # Set storage dir
+  sed -i "s:{{STORAGE_DIR}}:${STORAGE_DIR}:g" ${ROOT_DIR}etc/nginx/sites-available/boxes
+  sed -i "s:{{STORAGE_DIR}}:${STORAGE_DIR}:g" ${ROOT_DIR}etc/nginx/lua/publish_token_access.lua
+
 }
 
 

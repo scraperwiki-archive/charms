@@ -1,21 +1,34 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 
 export DEBIAN_FRONTEND=noninteractive
 export STORAGE_DIR=$(config-get CO_STORAGE_DIR)
+export JUJU_UNIT_NAME="$JUJU_UNIT_NAME"
+export HOSTNAME=${JUJU_UNIT_NAME/\//-}
 
-# Need to install common software here
-apt-get install -qq git
+juju-log "Installing common software..."
+sh hooks/install_common.sh
 
 juju-log "Installing oidentd..."
 sh hooks/080_install_oidentd.r.sh
 juju-log "Installing node..."
 sh hooks/027_install_node.r.sh
 
-juju-log "Linking passwd files to ${STORAGE_DIR}..."
-sh hooks/013_setup_global_passwd.r.sh
-
 # Prepare chroot stuff
+juju-log "Make sure we have the correct EBS directory structure..."
+# make the crontab directory on the shared filesystem if not there
+mkdir -p ${STORAGE_DIR}/crontabs
+chown root:crontab ${STORAGE_DIR}/crontabs
+chmod 1770 ${STORAGE_DIR}/crontabs
+
+# link it in
+rmdir /var/spool/cron/crontabs || true
+ln -s ${STORAGE_DIR}/crontabs /var/spool/cron/crontabs || true
+
+mkdir -p ${STORAGE_DIR}/sshkeys
+mkdir -p ${STORAGE_DIR}/etc
+mkdir -p ${STORAGE_DIR}/home
+
 juju-log "Installing pam_chroot environment..."
 sh hooks/005_install_pam_chroot.r.sh
 juju-log "Setting up cron for chroot environment..."
@@ -40,3 +53,6 @@ else
   juju-log "Installing minimal box software..."
   sh hooks/100_box_minimal_install.r.sh
 fi
+
+juju-log "Linking passwd files to ${STORAGE_DIR}... things will break on upgrade"
+sh hooks/013_setup_global_passwd.r.sh

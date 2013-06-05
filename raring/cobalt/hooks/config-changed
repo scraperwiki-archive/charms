@@ -8,17 +8,3 @@ sh hooks/029_config_cobalt.r.sh
 
 juju-log "Configuring nginx..."
 sh hooks/015_config_nginx.r.sh
-
-juju-log "Make sure we have the correct EBS directory structure..."
-# make the crontab directory on the shared filesystem if not there
-mkdir -p ${STORAGE_DIR}/crontabs
-chown root:crontab ${STORAGE_DIR}/crontabs
-chmod 1770 ${STORAGE_DIR}/crontabs
-
-# link it in
-rmdir /var/spool/cron/crontabs || true
-ln -s ${STORAGE_DIR}/crontabs /var/spool/cron/crontabs || true
-
-mkdir -p ${STORAGE_DIR}/sshkeys
-mkdir -p ${STORAGE_DIR}/etc
-mkdir -p ${STORAGE_DIR}/home

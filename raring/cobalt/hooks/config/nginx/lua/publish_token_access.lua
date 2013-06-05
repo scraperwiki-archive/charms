@@ -1,8 +1,8 @@
 local json = require "json";
-local file, _err = io.open("/home/"..ngx.var.box_name.."/box.json", "r");
+local file, _err = io.open("{{STORAGE_DIR}}/home/"..ngx.var.box_name.."/box.json", "r");
 
 if not file then
-  file, _err = io.open("/home/"..ngx.var.box_name.."/scraperwiki.json", "r");
+  file, _err = io.open("{{STORAGE_DIR}}/home/"..ngx.var.box_name.."/scraperwiki.json", "r");
 end
 
 if file then
@@ -22,6 +22,3 @@ if string.len(ngx.var.t) > 0 then
 else
   return ngx.exit(ngx.OK);
 end
-
-
-

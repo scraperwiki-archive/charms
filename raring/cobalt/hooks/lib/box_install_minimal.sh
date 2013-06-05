@@ -32,8 +32,8 @@ END
   apt-get update --assume-yes --quiet --quiet
   apt-get dist-upgrade --assume-yes --quiet --quiet
 
-  blue "For a minimal box: git sqlite"
-  aptit git sqlite3 curl
+  blue "For a minimal box: git sqlite vim"
+  aptit git sqlite3 curl vim
 }
 
 mounts () {

@@ -33,12 +33,12 @@ server {
     add_header Cache-Control "must-revalidate";
     expires 0;
 
-    disable_symlinks if_not_owner from=/home/$box_name/http;
+    disable_symlinks if_not_owner from={{STORAGE_DIR}}/home/$box_name/http;
 
     echo_before_body -n '$prefix';
     echo_after_body -n '$suffix';
 
-    alias /home/$box_name/http/$p;
+    alias {{STORAGE_DIR}}/home/$box_name/http/$p;
   }
   # redirect legacy URLs which have / in their box name - only for ones which have a publish token
   rewrite '^\/([^\s/]+)\/([^\s/]+)\/(?<w>([0-9a-zA-Z]{10,30}\/)http(?:\/(?<p>.+)?)?)$' /$1.$2/$w permanent;
