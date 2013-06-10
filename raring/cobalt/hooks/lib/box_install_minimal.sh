@@ -33,7 +33,8 @@ END
   apt-get dist-upgrade --assume-yes --quiet --quiet
 
   blue "For a minimal box: git sqlite vim"
-  aptit git sqlite3 curl vim
+  aptit git sqlite3 curl vim python python-pip
+  pip install scraperwiki python-magic unicodecsv xlrd
 }
 
 mounts () {
