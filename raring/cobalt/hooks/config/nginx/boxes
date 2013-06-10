@@ -63,9 +63,9 @@ server {
     echo_before_body -n '$prefix';
     echo_after_body -n '$suffix';
 
-    fastcgi_param DOCUMENT_ROOT /opt/cobalt/dumptruck-web/;
+    fastcgi_param DOCUMENT_ROOT /opt/dumptruck-web/;
     fastcgi_param SCRIPT_NAME dumptruck_web.py;
-    fastcgi_param SCRIPT_FILENAME /opt/cobalt/dumptruck-web/dumptruck_web.py;
+    fastcgi_param SCRIPT_FILENAME /opt/dumptruck-web/dumptruck_web.py;
 
     # Fill in the gaps. This does not overwrite previous settings,
     # so it goes last.

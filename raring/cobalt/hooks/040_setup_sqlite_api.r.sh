@@ -14,8 +14,8 @@ pip install --quiet dumptruck
 
 umask 022
 # Create the entrypoint for CGI.
-mkdir -p ${ROOT_DIR}opt/cobalt
-cd ${ROOT_DIR}opt/cobalt
+mkdir -p ${ROOT_DIR}opt
+cd ${ROOT_DIR}opt
 if test -e dumptruck-web
 then
   # Already exists, just pull.
