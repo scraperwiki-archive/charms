@@ -182,6 +182,7 @@ python_extras() {
   pipit pyrise
   pipit python-dateutil
   pipit pygooglechart
+  pipit pyhamcrest
   pipit pyPdf
   pipit pyquery
   pipit pyth
@@ -196,6 +197,7 @@ python_extras() {
   pipit scraperwiki
   pipit scrapy
   pipit selenium
+  pipit specloud
   pipit sqlaload
   pipit tweepy
   pipit tweetstream
