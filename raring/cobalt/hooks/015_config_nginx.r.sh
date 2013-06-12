@@ -8,6 +8,7 @@ set_nginx_config() {
 
   config-get SSL_CRT > ${ROOT_DIR}etc/nginx/star_scraperwiki_com.crt
   config-get SSL_KEY > ${ROOT_DIR}etc/nginx/star_scraperwiki_com.key
+  CO_STORAGE_DIR=$(config-get CO_STORAGE_DIR)  
 
   cp hooks/config/nginx/boxes ${ROOT_DIR}etc/nginx/sites-available/boxes
 
@@ -26,7 +27,10 @@ set_nginx_config() {
   # Set storage dir
   sed -i "s:{{STORAGE_DIR}}:${STORAGE_DIR}:g" ${ROOT_DIR}etc/nginx/sites-available/boxes
   sed -i "s:{{STORAGE_DIR}}:${STORAGE_DIR}:g" ${ROOT_DIR}etc/nginx/lua/publish_token_access.lua
-
+  
+  cat >> /etc/nginx/fastcgi_params << EOF
+fastcgi_param CO_STORAGE_DIR $CO_STORAGE_DIR;
+EOF
 }
 
 
