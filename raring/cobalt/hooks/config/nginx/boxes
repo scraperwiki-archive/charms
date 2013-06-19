@@ -62,7 +62,7 @@ server {
 
     echo_before_body -n '$prefix';
     echo_after_body -n '$suffix';
-
+    fastcgi_param CO_STORAGE_DIR {{STORAGE_DIR}};
     fastcgi_param DOCUMENT_ROOT /opt/dumptruck-web/;
     fastcgi_param SCRIPT_NAME dumptruck_web.py;
     fastcgi_param SCRIPT_FILENAME /opt/dumptruck-web/dumptruck_web.py;
