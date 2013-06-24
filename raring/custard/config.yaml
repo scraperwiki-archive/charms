@@ -1,0 +1,87 @@
+# Check syntax with:
+# python -c "import yaml;yaml.load(open(config.yaml))"
+options:
+  CU_DB:
+    type: string
+    description: "MongoDB connection string"
+  CU_PORT:
+    type: string
+    description: "Port/Socket on which custard listens"
+  CU_SESSION_SECRET:
+    type: string
+    description: "Server-side secret used to sign/encrypt all sessions"
+  CU_GITHUB_LOGIN:
+    type: string
+    description: "Possibly not used"
+  CU_TOOLS_DIR:
+    type: string
+    description: "Not really sure"
+  CU_BOX_SERVER:
+    type: string
+    description: "Default box server; going to be withdrawn"
+  NODE_ENV:
+    default: staging
+    type: string
+    description: "Node environment"
+  COBALT_PORT:
+    type: string
+    description: "Port/socket that Cobalt will run on"
+  CO_AVOID_BOX_CHECK:
+    type: string
+    description: "If set, avoids box check so local development works"
+  NODETIME_KEY:
+    type: string
+    description: "Nodetime.com API key (profiling tool)"
+  CU_NODETIME_APP:
+    type: string
+    description: "Name of the Nodetime app"
+  ALLOWED_IP:
+    type: string
+    description: "List of allowed IPs, one per line"
+  SSL_CRT:
+    description: "SSL certificate"
+    type: string
+  SSL_KEY:
+    description: "SSL private key"
+    type: string
+  EBS_VOLUME:
+    description: "EBS volume to attach to (not currently used)"
+    type: string
+  INSTALL_ALL_PACKAGES:
+    default: "no"
+    description: "Install all the basejail packages for a live cobalt instance"
+    type: string
+  CO_STORAGE_DIR:
+    default: "/ebs"
+    description: "Where to store all cobalt data"
+    type: string
+  CU_SENDGRID_USER:
+    type: string
+    description: "Username for sendgrid.com"
+  CU_SENDGRID_PASS:
+    type: string
+    description: "Password for sendgrid.com"
+  CU_INVITE_CODE:
+    type: string
+    description: "Invite code for signup (not used any more?)"
+  CU_QUOTA_SERVER:
+    type: string
+    description: "gand quota server; will be withdrawn"
+  RECURLY_DOMAIN:
+    type: string
+    description: "domain for recurly.com"
+  RECURLY_PRIVATE_KEY:
+    type: string
+    description: "private key for recurly.com"
+  RECURLY_API_KEY:
+    type: string
+    description: "api key for recurly.com"
+  CU_MAILCHIMP_API_KEY:
+    type: string
+    description: "api key for mailchimp.com"
+  CU_MAILCHIMP_LIST_ID:
+    type: string
+    description: "list id for whichever mailchimp.com list we want"
+  EXCEPTIONAL_KEY:
+    type: string
+    description: "Key for exceptional.io (lapsed)"

@@ -1,0 +1,4 @@
+#!/bin/sh
+open-port 443
+open-port 80
+open-port 113 # ident

@@ -1,0 +1,4 @@
+#!/bin/sh
+close-port 443
+close-port 80
+close-port 113
