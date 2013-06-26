@@ -1,3 +1,7 @@
+# warning: shell used as a templating engine!
+DEV=${DEV:-true}
+
+cat <<EOF
 # Move to common file
 gzip_disable msie6;
 gzip_static on;
@@ -5,11 +9,12 @@ gzip_comp_level 7;
 gzip_proxied any;
 gzip_types text/plain text/css application/x-javascript text/xml application/xml application/xml+rss text/javascript;
 
+$(if ! $DEV ; then cat <<EOF
 # Redirect http on live site to https
 server {
   server_name beta.scraperwiki.com;
   listen 80;
-  rewrite ^(.*) https://beta.scraperwiki.com$1 permanent;
+  rewrite ^(.*) https://beta.scraperwiki.com\$1 permanent;
 }
 
 # Redirect x to beta
@@ -17,14 +22,26 @@ server {
   server_name x.scraperwiki.com;
   listen 80;
   listen 443 ssl;
-  rewrite ^(.*) https://beta.scraperwiki.com$1 permanent;
+  rewrite ^(.*) https://beta.scraperwiki.com\$1 permanent;
 }
+EOF
+fi)
 
 server {
   include mime.types;
 
   listen 443 ssl;
+$(if $DEV ; then cat <<EOF
+  listen 80;
+EOF
+fi)
+$(if $DEV ; then cat <<EOF
+  server_name beta-dev.scraperwiki.com;
+EOF
+else cat <<EOF
   server_name beta.scraperwiki.com;
+EOF
+fi)
   ssl_certificate      star_scraperwiki_com.crt;
   ssl_certificate_key  star_scraperwiki_com.key;
 
@@ -42,11 +59,12 @@ server {
 
   location / {
     proxy_pass http://unix:/var/run/custard.socket;
-    proxy_set_header X-Real-Port $remote_port;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Server-IP $server_addr;
-    proxy_set_header X-Server-Port $server_port;
+    proxy_set_header X-Real-Port \$remote_port;
+    proxy_set_header X-Real-IP \$remote_addr;
+    proxy_set_header X-Server-IP \$server_addr;
+    proxy_set_header X-Server-Port \$server_port;
     proxy_set_header Host $host;
   }
 
 }
+EOF
