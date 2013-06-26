@@ -52,10 +52,13 @@ fi)
     root /opt/custard/shared;
   }
 
+$(if ! $DEV ; then cat <<EOF
   location ~ '^\/code/' {
     root /opt/custard/builtAssets;
     expires max;
   }
+EOF
+fi)
 
   location / {
     proxy_pass http://unix:/var/run/custard.socket;
@@ -63,7 +66,7 @@ fi)
     proxy_set_header X-Real-IP \$remote_addr;
     proxy_set_header X-Server-IP \$server_addr;
     proxy_set_header X-Server-Port \$server_port;
-    proxy_set_header Host $host;
+    proxy_set_header Host \$host;
   }
 
 }
