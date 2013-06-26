@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+# juju doesn't set this, but node-gyp requires it (probably).
+export HOME=${HOME:-~root}
+
 export DEBIAN_FRONTEND=noninteractive
 # export STORAGE_DIR=$(config-get CO_STORAGE_DIR)
 export JUJU_UNIT_NAME="$JUJU_UNIT_NAME"

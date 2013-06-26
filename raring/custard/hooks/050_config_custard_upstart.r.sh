@@ -27,7 +27,7 @@ script
     export RECURLY_DOMAIN=$(config-get RECURLY_DOMAIN)
     export RECURLY_PRIVATE_KEY=$(config-get RECURLY_PRIVATE_KEY)
     export RECURLY_API_KEY=$(config-get RECURLY_API_KEY)
-    export NODETIME_KEY=$(config-get NODETIME_KEY)
+    export NODETIME_KEY="$(config-get NODETIME_KEY)"
     export CU_NODETIME_APP=$(config-get CU_NODETIME_APP)
     export CU_MAILCHIMP_API_KEY=$(config-get CU_MAILCHIMP_API_KEY)
     export CU_MAILCHIMP_LIST_ID=$(config-get CU_MAILCHIMP_LIST_ID)

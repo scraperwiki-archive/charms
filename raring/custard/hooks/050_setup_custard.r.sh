@@ -9,8 +9,10 @@ cd /opt/custard 2>/dev/null || {
 }
 git pull --quiet
 
+export -p
+npm install --production
+#npm install --production 2>&1 >>/var/log/npm.install.log | egrep -v "^$|^npm http |Checking for |finished successfully|Entering directory|Leaving directory|cxx:|cxx_link:|yes|Nothing to clean|Setting srcdir|Setting blddir" || true
 . ./activate 2>&1 >>/var/log/custard.activate.log | egrep -v "^$|^npm http" || true
-npm install --production 2>&1 >>/var/log/npm.install.log | egrep -v "^$|^npm http |Checking for |finished successfully|Entering directory|Leaving directory|cxx:|cxx_link:|yes|Nothing to clean|Setting srcdir|Setting blddir" || true
 
 # Make tool repo directory
 mkdir -p /opt/tools

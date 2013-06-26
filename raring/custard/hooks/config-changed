@@ -1,9 +1,8 @@
 #!/bin/sh
 set -e
 export DEBIAN_FRONTEND=noninteractive
-export STORAGE_DIR=$(config-get CO_STORAGE_DIR)
 
-juju-log "Configuring cobalt..."
+juju-log "Configuring custard..."
 sh hooks/050_config_custard_upstart.r.sh
 
 juju-log "Configuring nginx..."
