@@ -14,7 +14,7 @@ sh hooks/080_install_oidentd.r.sh
 juju-log "Installing node..."
 sh hooks/027_install_node.r.sh
 
-# Setup cobalt
+# Setup custard
 juju-log "Setting up nginx..."
 sh hooks/015_setup_nginx.r.sh
 juju-log "Setting up custard..."
