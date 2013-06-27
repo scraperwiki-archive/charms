@@ -2,10 +2,12 @@
 export DEBIAN_FRONTEND=noninteractive
 #set -e # should put this back when npm does no errors!
 
+gitdiff="git diff"
 cd /opt/custard 2>/dev/null || {
   # Git clone if we haven't found it
   git clone --quiet git://github.com/scraperwiki/custard.git /opt/custard --depth 1
   cd /opt/custard
+  gitdiff="echo a fresh deploy"
 }
 git pull --quiet
 
@@ -21,4 +23,4 @@ mkdir -p /opt/tools
 service custard stop >/dev/null 2>&1 || true
 service custard start >/dev/null
 
-git diff --stat master master@{1} 2>&1 | mail developers@scraperwiki.com -s "Custard has been deployed to $1"
+$gitdiff --stat master master@{1} 2>&1 | mail developers@scraperwiki.com -s "Custard has been deployed to $(hostname)"
