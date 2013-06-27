@@ -3,8 +3,8 @@ set -e
 ROOT_DIR=${ROOT_DIR:-/}
 
 write_fstab() {
-  # this only changes the entry for /proc
-  sed -i '/^proc/s:defaults\s:defaults,hidepid=2,remount :' "${1}etc/fstab"
+  grep ^proc /etc/fstab ||
+    echo "proc        /proc        proc    defaults,hidepid=2,remount" >> /etc/fstab
 }
 
 write_rclocal() {
