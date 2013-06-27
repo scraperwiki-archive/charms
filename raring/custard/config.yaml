@@ -1,5 +1,5 @@
 # Check syntax with:
-# python -c "import yaml;yaml.load(open(config.yaml))"
+# python -c "import yaml;yaml.load(open('config.yaml'))"
 options:
   CU_DB:
     type: string
