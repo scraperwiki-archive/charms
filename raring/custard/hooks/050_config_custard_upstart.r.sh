@@ -28,6 +28,10 @@ script
     export CU_MAILCHIMP_API_KEY=$(config-get CU_MAILCHIMP_API_KEY)
     export CU_MAILCHIMP_LIST_ID=$(config-get CU_MAILCHIMP_LIST_ID)
     export EXCEPTIONAL_KEY=$(config-get EXCEPTIONAL_KEY)
+    export CU_REQUEST_BOX_URL=$(config-get CU_REQUEST_BOX_URL)
+    export CU_REQUEST_API_KEY=$(config-get CU_REQUEST_API_KEY)
+    export CU_REQUEST_EMAIL=$(config-get CU_REQUEST_EMAIL)
+
     cd /opt/custard &&
     . ./activate &&
     echo "Custard starting at \$(date --rfc-3339=seconds)" &&
