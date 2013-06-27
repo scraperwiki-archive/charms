@@ -35,7 +35,7 @@ script
     cd /opt/custard &&
     . ./activate &&
     echo "Custard starting at \$(date --rfc-3339=seconds)" &&
-    echo "Custard starting on port or socket $CU_PORT" &&
+    echo "Custard starting on port or socket \$CU_PORT" &&
     cake build &&
     exec node server.js
 end script
