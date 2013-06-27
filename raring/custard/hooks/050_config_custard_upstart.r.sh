@@ -51,7 +51,7 @@ EOF
 gitdiff="git diff"
 cd /opt/custard 2>/dev/null || {
   # Git clone if we haven't found it
-  git clone --quiet git://github.com/scraperwiki/custard.git /opt/custard --depth 1
+  git clone --quiet git://github.com/scraperwiki/custard.git /opt/custard
   cd /opt/custard
   gitdiff="echo a fresh deploy"
 }
