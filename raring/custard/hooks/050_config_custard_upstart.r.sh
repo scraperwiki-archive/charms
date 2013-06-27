@@ -1,10 +1,6 @@
 #!/bin/sh
 
 set -e
-export DEBIAN_FRONTEND=noninteractive
-
-# not used.
-export CU_PORT=/var/run/custard.socket
 
 # See http://superuser.com/questions/402794/writing-simple-upstart-script
 cat <<EOF > /etc/init/custard.conf
@@ -34,6 +30,7 @@ script
     export EXCEPTIONAL_KEY=$(config-get EXCEPTIONAL_KEY)
     cd /opt/custard &&
     . ./activate &&
+    echo "Custard starting at \$(date --rfc-3339=seconds)" &&
     echo "Custard starting on port or socket $CU_PORT" &&
     cake build &&
     exec node server.js
