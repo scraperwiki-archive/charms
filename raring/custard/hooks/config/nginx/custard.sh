@@ -22,6 +22,8 @@ server {
   server_name x.scraperwiki.com;
   listen 80;
   listen 443 ssl;
+  ssl_certificate      star_scraperwiki_com.crt;
+  ssl_certificate_key  star_scraperwiki_com.key;
   rewrite ^(.*) https://beta.scraperwiki.com\$1 permanent;
 }
 EOF
