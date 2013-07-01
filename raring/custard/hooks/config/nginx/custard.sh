@@ -67,6 +67,8 @@ fi)
 
   # Redirects to Classic
   rewrite ^/browse https://classic.scraperwiki.com/browse/ permanent;
+  rewrite ^/jobs https://classic.scraperwiki.com/jobs/ permanent;
+  rewrite ^/events https://classic.scraperwiki.com/events/ permanent;
   rewrite ^/tags https://classic.scraperwiki.com/tags/ permanent;
   rewrite ^/scrapers/(.+) https://classic.scraperwiki.com/scrapers/$1 permanent;
   rewrite ^/views/(.+) https://classic.scraperwiki.com/views/$1 permanent;
