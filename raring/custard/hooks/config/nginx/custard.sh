@@ -66,9 +66,12 @@ fi)
   rewrite ^/(dataservices|data_hub|business|data_consultancy|dataconsulting) /professional/ permanent;
 
   # Redirects to Classic
-  rewrite ^/browse https://classic.scraperwiki.com/browse permanent;
+  rewrite ^/browse https://classic.scraperwiki.com/browse/ permanent;
+  rewrite ^/tags https://classic.scraperwiki.com/tags/ permanent;
   rewrite ^/scrapers/(.+) https://classic.scraperwiki.com/scrapers/$1 permanent;
+  rewrite ^/views/(.+) https://classic.scraperwiki.com/views/$1 permanent;
   rewrite ^/profiles/(.+) https://classic.scraperwiki.com/profiles/$1 permanent;
+  rewrite ^/docs([/].+)? https://classic.scraperwiki.com/docs$1 permanent;
 
 
   location / {
