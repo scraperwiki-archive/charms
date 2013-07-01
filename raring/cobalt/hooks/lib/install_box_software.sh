@@ -120,6 +120,8 @@ debian_extras() {
   blue "Installing popular editors"
   aptit vim emacs nano joe nedit vim-gnome
 
+  update-alternatives --set editor /bin/nano >/dev/null 2>&1 || true
+
   blue "Installing spawnable binaries"
   aptit poppler-utils pdftk inkscape duplicity
 
