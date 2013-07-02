@@ -70,10 +70,10 @@ fi)
   rewrite ^/jobs https://classic.scraperwiki.com/jobs/ permanent;
   rewrite ^/events https://classic.scraperwiki.com/events/ permanent;
   rewrite ^/tags https://classic.scraperwiki.com/tags/ permanent;
-  rewrite ^/scrapers/(.+) https://classic.scraperwiki.com/scrapers/$1 permanent;
-  rewrite ^/views/(.+) https://classic.scraperwiki.com/views/$1 permanent;
-  rewrite ^/profiles/(.+) https://classic.scraperwiki.com/profiles/$1 permanent;
-  rewrite ^/docs([/].+)? https://classic.scraperwiki.com/docs$1 permanent;
+  rewrite ^/scrapers/(.+) https://classic.scraperwiki.com/scrapers/\$1 permanent;
+  rewrite ^/views/(.+) https://classic.scraperwiki.com/views/\$1 permanent;
+  rewrite ^/profiles/(.+) https://classic.scraperwiki.com/profiles/\$1 permanent;
+  rewrite ^/docs([/].+)? https://classic.scraperwiki.com/docs\$1 permanent;
 
 
   location / {
