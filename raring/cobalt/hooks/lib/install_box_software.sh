@@ -162,6 +162,7 @@ python_extras() {
   pipit dexy
   pipit dumptruck
   pipit feedparser
+  pipit flickrapi
   pipit fluidinfo.py
   pipit geopy
   pipit gensim
