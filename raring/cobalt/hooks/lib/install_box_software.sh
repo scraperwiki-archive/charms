@@ -2,7 +2,7 @@
 #
 # Script to set up the inside of a ScraperWiki box
 
-set -e # exit on error
+#set -e # exit on error
 #set -x # Useful for debugging, but not useful routinely.
 
 # get rid of Perl warnings about locale
