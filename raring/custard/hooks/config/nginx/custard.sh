@@ -74,6 +74,7 @@ fi)
   rewrite ^/views/(.+) https://classic.scraperwiki.com/views/\$1 permanent;
   rewrite ^/profiles/(.+) https://classic.scraperwiki.com/profiles/\$1 permanent;
   rewrite ^/docs([/].+)? https://classic.scraperwiki.com/docs\$1 permanent;
+  rewrite ^/editor/raw/(.+) https://classic.scraperwiki.com/editor/raw/\$1 permanent;
 
 
   location / {
