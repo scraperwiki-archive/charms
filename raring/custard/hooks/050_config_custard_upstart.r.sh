@@ -24,7 +24,7 @@ script
     export RECURLY_PRIVATE_KEY=$(config-get RECURLY_PRIVATE_KEY)
     export RECURLY_API_KEY=$(config-get RECURLY_API_KEY)
     export NODETIME_KEY="$(config-get NODETIME_KEY)"
-    export CU_NODETIME_APP=$(config-get CU_NODETIME_APP)
+    export CU_NODETIME_APP="$(config-get CU_NODETIME_APP)"
     export CU_MAILCHIMP_API_KEY=$(config-get CU_MAILCHIMP_API_KEY)
     export CU_MAILCHIMP_LIST_ID=$(config-get CU_MAILCHIMP_LIST_ID)
     export EXCEPTIONAL_KEY=$(config-get EXCEPTIONAL_KEY)
@@ -57,7 +57,7 @@ cd /opt/custard 2>/dev/null || {
 }
 git pull --quiet
 
-npm install --production 2>&1 >>/var/log/npm.install.log | egrep -v "^$|^npm http |Checking for |finished successfully|Entering directory|Leaving directory|cxx:|cxx_link:|yes|Nothing to clean|Setting srcdir|Setting blddir" || true
+npm install --production >>/var/log/npm.install.log 2>&1 | egrep -v "^$|^npm http |Checking for |finished successfully|Entering directory|Leaving directory|cxx:|cxx_link:|yes|Nothing to clean|Setting srcdir|Setting blddir" || true
 
 $gitdiff --stat master master@{1} 2>&1 | mail developers@scraperwiki.com -s "Custard has been deployed to $(hostname)"
 

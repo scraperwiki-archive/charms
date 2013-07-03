@@ -62,6 +62,20 @@ $(if ! $DEV ; then cat <<EOF
 EOF
 fi)
 
+  # Redirects to professional services
+  rewrite ^/(dataservices|data_hub|business|data_consultancy|dataconsulting) /professional/ permanent;
+
+  # Redirects to Classic
+  rewrite ^/browse https://classic.scraperwiki.com/browse/ permanent;
+  rewrite ^/jobs https://classic.scraperwiki.com/jobs/ permanent;
+  rewrite ^/events https://classic.scraperwiki.com/events/ permanent;
+  rewrite ^/tags https://classic.scraperwiki.com/tags/ permanent;
+  rewrite ^/scrapers/(.+) https://classic.scraperwiki.com/scrapers/\$1 permanent;
+  rewrite ^/views/(.+) https://classic.scraperwiki.com/views/\$1 permanent;
+  rewrite ^/profiles/(.+) https://classic.scraperwiki.com/profiles/\$1 permanent;
+  rewrite ^/docs([/].+)? https://classic.scraperwiki.com/docs\$1 permanent;
+
+
   location / {
     proxy_pass http://unix:/var/run/custard.socket;
     proxy_set_header X-Real-Port \$remote_port;
