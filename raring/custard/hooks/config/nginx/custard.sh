@@ -17,6 +17,13 @@ server {
   rewrite ^(.*) https://beta.scraperwiki.com\$1 permanent;
 }
 
+# Redirect http on live site to https
+server {
+  server_name scraperwiki.com;
+  listen 80;
+  rewrite ^(.*) https://scraperwiki.com\$1 permanent;
+}
+
 # Redirect x to beta
 server {
   server_name x.scraperwiki.com;
@@ -41,7 +48,7 @@ $(if $DEV ; then cat <<EOF
   server_name beta-dev.scraperwiki.com;
 EOF
 else cat <<EOF
-  server_name beta.scraperwiki.com;
+  server_name beta.scraperwiki.com scraperwiki.com;
 EOF
 fi)
   ssl_certificate      star_scraperwiki_com.crt;
