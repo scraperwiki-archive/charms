@@ -24,14 +24,14 @@ server {
   rewrite ^(.*) https://scraperwiki.com\$1 permanent;
 }
 
-# Redirect x to beta
+# Redirect www, x to scraperwiki.com
 server {
-  server_name x.scraperwiki.com;
+  server_name x.scraperwiki.com www.scraperwiki.com;
   listen 80;
   listen 443 ssl;
   ssl_certificate      star_scraperwiki_com.crt;
   ssl_certificate_key  star_scraperwiki_com.key;
-  rewrite ^(.*) https://beta.scraperwiki.com\$1 permanent;
+  rewrite ^(.*) https://scraperwiki.com\$1 permanent;
 }
 EOF
 fi)
