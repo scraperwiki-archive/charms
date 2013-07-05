@@ -8,3 +8,6 @@ sh hooks/029_config_cobalt.r.sh
 
 juju-log "Configuring nginx..."
 sh hooks/015_config_nginx.r.sh
+
+juju-log "Configuring monit..."
+sh hooks/config_monit.sh

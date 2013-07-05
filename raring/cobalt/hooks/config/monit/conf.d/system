@@ -1,0 +1,5 @@
+check system {{HOSTNAME}}
+  if loadavg (1min) > {{LOAD_1}} then alert
+  if loadavg (5min) > {{LOAD_5}} then alert
+  if loadavg (10min) > {{LOAD_10}} then alert
+  if memory usage > 75% then alert
