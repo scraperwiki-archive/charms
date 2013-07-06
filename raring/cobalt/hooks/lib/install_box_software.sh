@@ -278,7 +278,7 @@ ruby_extras() {
   gemit typhoeus
   gemit rubyzip # roo needs rubyzip
   gemit roo
-  gemit highrise
+  gem$WHICH_RUBY install -v 3.0.3 highrise # later versions don't work for me, got back to latest when this fixed https://github.com/tapajos/highrise/issues/50
   gemit rfgraph
   gemit google-spreadsheet-ruby
   gemit google_drive
