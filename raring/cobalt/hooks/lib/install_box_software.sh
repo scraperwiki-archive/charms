@@ -41,12 +41,11 @@ WHICH_RUBY=1.9.1
 # default, and bundler can't install globally. This seems easiest, but
 # would rather use gem or bundler really to do it properly...
 gemit() {
-    VERSION=$1
-    PACKAGE=$2
-    if [ ! -d /var/lib/gems/$WHICH_RUBY/gems/$PACKAGE-$VERSION ];
-    then
-        gem$WHICH_RUBY install --quiet --no-rdoc --no-ri -v $VERSION $PACKAGE
-    fi
+    PACKAGE=$1
+
+    # http://stackoverflow.com/questions/10008430/install-gem-on-demand
+    ruby$WHICH_RUBY -e '`gem'$WHICH_RUBY' list -i \"^'$PACKAGE'$\"`.chomp=="true" or `gem'$WHICH_RUBY' install '$PACKAGE'`'
+    gem$WHICH_RUBY update -q $PACKAGE >/dev/null
 }
 
 peclit () {
@@ -263,29 +262,29 @@ node_extras() {
 
 ruby_extras() {
   blue "Installing Ruby extras"
-  gemit 1.3.6 sqlite3
-  gemit 2.2.1 httpclient
-  gemit 1.5.0 nokogiri
-  gemit 0.8.4 hpricot
-  gemit 2.2.1 libxml-ruby
-  gemit 2.5.1 mechanize
-  gemit 0.6.5.7 spreadsheet
-  gemit 1.5.4 fastercsv
-  gemit 0.10.0 pdf-reader
-  gemit 1.1.2 gdata
-  gemit 1.2.7.1 tmail
-  gemit 0.3.2 typhoeus
-  gemit 0.9.4 rubyzip # roo needs rubyzip
-  gemit 1.10.0 roo
-  gemit 3.0.3 highrise
-  gemit 0.3 rfgraph
-  gemit 0.1.8 google-spreadsheet-ruby
-  gemit 0.3.2 google_drive
-  gemit 0.1.0 polylines
-  gemit 4.5.0 twitter
-  gemit 1.2.0 dm-sqlite-adapter
-  gemit 2.0.6 scraperwiki
-  gemit 1.3.0 icalendar
+  gemit sqlite3
+  gemit httpclient
+  gemit nokogiri
+  gemit hpricot
+  gemit libxml-ruby
+  gemit mechanize
+  gemit spreadsheet
+  gemit fastercsv
+  gemit pdf-reader
+  gemit gdata
+  gemit tmail
+  gemit typhoeus
+  gemit rubyzip # roo needs rubyzip
+  gemit roo
+  gemit highrise
+  gemit rfgraph
+  gemit google-spreadsheet-ruby
+  gemit google_drive
+  gemit polylines
+  gemit twitter
+  gemit dm-sqlite-adapter
+  gemit scraperwiki
+  gemit icalendar
   echo "Finished Ruby extras"
 }
 
