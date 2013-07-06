@@ -88,7 +88,7 @@ END
   aptit aptitude wget curl tidy ack-grep tree telnet netcat net-tools lsof
   dpkg-divert  --local --divert /usr/bin/ack --rename --add /usr/bin/ack-grep
   aptit libxml2-dev libxslt1-dev libssl-dev libcurl4-openssl-dev geoip-bin libfreetype6-dev
-  aptit nodejs npm coffeescript r-recommended tcc luarocks
+  aptit nodejs coffeescript r-recommended tcc luarocks
   aptit xvfb
   aptit golang
 
