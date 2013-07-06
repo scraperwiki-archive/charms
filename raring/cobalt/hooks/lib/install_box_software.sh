@@ -181,6 +181,7 @@ python_extras() {
   pipit openpyxl
   pipit pdfminer
   pipit pipe2py
+  pipit plurk-oauth
   # pipit pydot # loads incompatible version of pyparsing for now, like https://github.com/RDFLib/rdflib/issues/245
   pipit pyephem
   pipit pyrise
@@ -196,6 +197,7 @@ python_extras() {
   pipit requests_cache
   pipit requests-foauth
   pipit rdflib
+  pipit robotexclusionrulesparser
   pipit gdata
   pipit scrapely
   pipit scraperwiki
