@@ -71,9 +71,10 @@ rit () {
 }
 
 debian_stuff () {
-  # otherwise get message "debconf: delaying package configuration, since apt-utils is not installed" lots
-  aptit apt-utils
-  aptit lsb-core lsb-base
+  # apt-utils: otherwise get message "debconf: delaying package configuration, since apt-utils is not installed" lots
+  # software-properties-common: for add-apt-repository
+  aptit apt-utils lsb-core lsb-base software-properties-common
+  add-apt-repository -y ppa:chris-lea/node.js # for latest node
 
   blue "Upgrading Ubuntu packages, for security and update fixes"
   cat <<END >/etc/apt/sources.list
