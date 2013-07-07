@@ -106,7 +106,7 @@ END
   aptit python-creoleparser python-pycurl python-simplejson python-paramiko python-boto
 
   blue "Installing PHP debian packages"
-  aptit php5-sqlite php5-cli php-pear php5-gd php5-curl php5-geoip php5-sqlite php5-tidy
+  aptit php5-dev php5-sqlite php5-cli php-pear php5-gd php5-curl php5-geoip php5-sqlite php5-tidy
 
   blue "Installing Ruby debian packages"
   aptit ruby$WHICH_RUBY ruby$WHICH_RUBY-dev # ruby includes gem after 1.9
