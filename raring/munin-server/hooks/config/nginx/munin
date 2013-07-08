@@ -1,0 +1,13 @@
+server {
+  listen 80;
+
+  root /var/www/admin/munin;
+  index index.html index.htm;
+
+  # Make site accessible from http://localhost/
+  server_name localhost;
+
+  location / {
+    try_files $uri $uri/ /index.html;
+  }
+}
