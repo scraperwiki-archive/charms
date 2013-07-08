@@ -48,6 +48,12 @@ makejail() {
   echo '#!/bin/sh' > /opt/basejail/usr/share/libpam-script/pam_script_ses_close
   chmod 755 /opt/basejail/usr/share/libpam-script/pam_script_ses_close
 
+  # Mount EC2 instance HD as basejail tmp directory
+  umount /mnt
+  sed -i s:/mnt:/opt/basejail/tmp:1 /etc/fstab
+  mount /opt/basejail/tmp
+
+
   touch /var/run/makejail.done
 }
 
