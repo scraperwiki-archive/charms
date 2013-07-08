@@ -38,3 +38,6 @@ options:
     default: "/ebs"
     description: "Where to store all cobalt data"
     type: string
+  MUNIN_SERVER:
+    description: "IP of munin server to allow"
+    type: string
