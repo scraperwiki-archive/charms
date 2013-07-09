@@ -94,3 +94,6 @@ options:
   CU_REQUEST_EMAIL:
     type: string
     description: "email address to which requests are copied"
+  MUNIN_SERVER:
+    description: "IP of munin server to allow"
+    type: string

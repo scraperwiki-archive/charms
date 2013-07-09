@@ -1,0 +1,12 @@
+#!/bin/sh
+set -eux
+DEBIAN_NONINTERACTIVE=true
+
+apt-get install nginx munin
+
+cp config/nginx/munin /etc/nginx/sites-available
+ln -s /etc/nginx/sites-available/munin /etc/sites-enabled/munin
+cp config/munin/* /etc/munin/
+
+service munin restart
+service nginx restart

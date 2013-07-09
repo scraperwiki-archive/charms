@@ -2,7 +2,7 @@
 #
 # Script to set up the inside of a ScraperWiki box
 
-set -e # exit on error
+#set -e # exit on error
 #set -x # Useful for debugging, but not useful routinely.
 
 # get rid of Perl warnings about locale
@@ -12,6 +12,7 @@ export LANGUAGE=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export LC_CTYPE=en_US.UTF-8
+export DEBIAN_FRONTEND=noninteractive
 
 blue () {
     # Output a blue string.
@@ -40,12 +41,11 @@ WHICH_RUBY=1.9.1
 # default, and bundler can't install globally. This seems easiest, but
 # would rather use gem or bundler really to do it properly...
 gemit() {
-    VERSION=$1
-    PACKAGE=$2
-    if [ ! -d /var/lib/gems/$WHICH_RUBY/gems/$PACKAGE-$VERSION ];
-    then
-        gem$WHICH_RUBY install --quiet --no-rdoc --no-ri -v $VERSION $PACKAGE
-    fi
+    PACKAGE=$1
+
+    # http://stackoverflow.com/questions/10008430/install-gem-on-demand
+    ruby$WHICH_RUBY -e '`gem'$WHICH_RUBY' list -i \"^'$PACKAGE'$\"`.chomp=="true" or `gem'$WHICH_RUBY' install '$PACKAGE'`'
+    gem$WHICH_RUBY update -q $PACKAGE >/dev/null
 }
 
 peclit () {
@@ -70,9 +70,10 @@ rit () {
 }
 
 debian_stuff () {
-  # otherwise get message "debconf: delaying package configuration, since apt-utils is not installed" lots
-  aptit apt-utils
-  aptit lsb-core lsb-base
+  # apt-utils: otherwise get message "debconf: delaying package configuration, since apt-utils is not installed" lots
+  # software-properties-common: for add-apt-repository
+  aptit apt-utils lsb-core lsb-base software-properties-common
+  add-apt-repository -y ppa:chris-lea/node.js # for latest node
 
   blue "Upgrading Ubuntu packages, for security and update fixes"
   cat <<END >/etc/apt/sources.list
@@ -87,7 +88,7 @@ END
   aptit aptitude wget curl tidy ack-grep tree telnet netcat net-tools lsof
   dpkg-divert  --local --divert /usr/bin/ack --rename --add /usr/bin/ack-grep
   aptit libxml2-dev libxslt1-dev libssl-dev libcurl4-openssl-dev geoip-bin libfreetype6-dev
-  aptit nodejs npm coffeescript r-recommended tcc luarocks
+  aptit nodejs coffeescript r-recommended tcc luarocks
   aptit xvfb
   aptit golang
 
@@ -105,7 +106,7 @@ END
   aptit python-creoleparser python-pycurl python-simplejson python-paramiko python-boto
 
   blue "Installing PHP debian packages"
-  aptit php5-sqlite php5-cli php-pear php5-gd php5-curl php5-geoip php5-sqlite php5-tidy
+  aptit php5-dev php5-sqlite php5-cli php-pear php5-gd php5-curl php5-geoip php5-sqlite php5-tidy
 
   blue "Installing Ruby debian packages"
   aptit ruby$WHICH_RUBY ruby$WHICH_RUBY-dev # ruby includes gem after 1.9
@@ -180,6 +181,7 @@ python_extras() {
   pipit openpyxl
   pipit pdfminer
   pipit pipe2py
+  pipit plurk-oauth
   # pipit pydot # loads incompatible version of pyparsing for now, like https://github.com/RDFLib/rdflib/issues/245
   pipit pyephem
   pipit pyrise
@@ -195,6 +197,7 @@ python_extras() {
   pipit requests_cache
   pipit requests-foauth
   pipit rdflib
+  pipit robotexclusionrulesparser
   pipit gdata
   pipit scrapely
   pipit scraperwiki
@@ -261,29 +264,29 @@ node_extras() {
 
 ruby_extras() {
   blue "Installing Ruby extras"
-  gemit 1.3.6 sqlite3
-  gemit 2.2.1 httpclient
-  gemit 1.5.0 nokogiri
-  gemit 0.8.4 hpricot
-  gemit 2.2.1 libxml-ruby
-  gemit 2.5.1 mechanize
-  gemit 0.6.5.7 spreadsheet
-  gemit 1.5.4 fastercsv
-  gemit 0.10.0 pdf-reader
-  gemit 1.1.2 gdata
-  gemit 1.2.7.1 tmail
-  gemit 0.3.2 typhoeus
-  gemit 0.9.4 rubyzip # roo needs rubyzip
-  gemit 1.10.0 roo
-  gemit 3.0.3 highrise
-  gemit 0.3 rfgraph
-  gemit 0.1.8 google-spreadsheet-ruby
-  gemit 0.3.2 google_drive
-  gemit 0.1.0 polylines
-  gemit 4.5.0 twitter
-  gemit 1.2.0 dm-sqlite-adapter
-  gemit 2.0.6 scraperwiki
-  gemit 1.3.0 icalendar
+  gemit sqlite3
+  gemit httpclient
+  gemit nokogiri
+  gemit hpricot
+  gemit libxml-ruby
+  gemit mechanize
+  gemit spreadsheet
+  gemit fastercsv
+  gemit pdf-reader
+  gemit gdata
+  gemit tmail
+  gemit typhoeus
+  gemit rubyzip # roo needs rubyzip
+  gemit roo
+  gem$WHICH_RUBY install -v 3.0.3 highrise # later versions don't work for me, got back to latest when this fixed https://github.com/tapajos/highrise/issues/50
+  gemit rfgraph
+  gemit google-spreadsheet-ruby
+  gemit google_drive
+  gemit polylines
+  gemit twitter
+  gemit dm-sqlite-adapter
+  gemit scraperwiki
+  gemit icalendar
   echo "Finished Ruby extras"
 }
 

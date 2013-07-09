@@ -85,6 +85,10 @@ fi)
   rewrite ^/accounts/(.+) https://classic.scraperwiki.com/accounts/\$1 permanent;
 
 
+  location /sitemap.txt {
+    alias /opt/custard/shared/sitemap.txt;
+  }
+
   location / {
     proxy_pass http://unix:/var/run/custard.socket;
     proxy_set_header X-Real-Port \$remote_port;
