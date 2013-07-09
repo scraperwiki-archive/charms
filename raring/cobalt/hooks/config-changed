@@ -8,3 +8,14 @@ sh hooks/029_config_cobalt.r.sh
 
 juju-log "Configuring nginx..."
 sh hooks/015_config_nginx.r.sh
+
+juju-log "Configuring monit..."
+sh hooks/config_monit.sh
+
+juju-log "Configuring munin..."
+munin_server=$(config-get MUNIN_SERVER)
+
+if ! grep -q $munin_server /etc/munin/munin-node.conf
+then
+  echo "cidr_allow ${munin_server}/32" >> /etc/munin/munin-node.conf
+fi

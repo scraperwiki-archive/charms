@@ -1,0 +1,5 @@
+check filesystem rootfs with path /
+    if space > 90 % then alert
+
+check filesystem ebs with path /ebs
+    if space > 90 % then alert

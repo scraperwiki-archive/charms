@@ -41,8 +41,7 @@ esac
 
 # Update what we have
 cd
-git fetch origin 20130523-ec2 || true
-git checkout 20130523-ec2 || true
+git pull || true
 
 . ./activate || true
 npm install --production 2>&1 || true

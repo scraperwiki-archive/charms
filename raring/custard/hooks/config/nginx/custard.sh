@@ -84,6 +84,10 @@ fi)
   rewrite ^/editor/raw/(.+) https://classic.scraperwiki.com/editor/raw/\$1 permanent;
 
 
+  location /sitemap.txt {
+    alias /opt/custard/shared/sitemap.txt;
+  }
+
   location / {
     proxy_pass http://unix:/var/run/custard.socket;
     proxy_set_header X-Real-Port \$remote_port;
