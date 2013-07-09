@@ -82,7 +82,7 @@ fi)
   rewrite ^/profiles/(.+) https://classic.scraperwiki.com/profiles/\$1 permanent;
   rewrite ^/docs([/].+)? https://classic.scraperwiki.com/docs\$1 permanent;
   rewrite ^/editor/raw/(.+) https://classic.scraperwiki.com/editor/raw/\$1 permanent;
-  rewrite ^/accounts/([/].+) https://classic.scraperwiki.com/accounts/\$1 permanent;
+  rewrite ^/accounts/(.+) https://classic.scraperwiki.com/accounts/\$1 permanent;
 
 
   location /sitemap.txt {
