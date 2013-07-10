@@ -147,7 +147,7 @@ python_extras() {
   pipit pip
   # clear shell's search path, as pip has just moved from /usr/bin to /usr/local/bin
   hash -r
-  pipit distribute
+  # pipit distribute # don't think needed any more
 
   # lots of useful data science tools
   pipit BeautifulSoup
@@ -179,6 +179,7 @@ python_extras() {
   pipit ngram
   pipit networkx
   pipit openpyxl
+  pipit parslepy
   pipit pdfminer
   pipit pipe2py
   pipit plurk-oauth
