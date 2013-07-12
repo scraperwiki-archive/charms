@@ -4,12 +4,19 @@ export DEBIAN_FRONTEND=noninteractive
 
 # juju doesn't set this, but node-gyp requires it (probably).
 export HOME=${HOME:-~root}
+export INTERNAL_IP=$(/sbin/ifconfig | grep 'inet addr:10\.' | sed 's/.*addr:\([^ ]*\).*/\1/')
 
 juju-log "Configuring custard..."
 sh hooks/050_config_custard_upstart.r.sh
 
 juju-log "Configuring nginx..."
 sh hooks/015_config_nginx.r.sh
+
+juju-log "Configuring redis..."
+redis_passwd=$(config-get REDIS_PASSWD)
+sed -i "s/requirepass .*/requirepass ${REDIS_PASSWD}/" /etc/redis/redis.conf
+sed -i "s/bind .*/bind ${INTERNAL_IP}/" /etc/redis/redis.conf
+service redis-server restart || service redis-server start
 
 juju-log "Configuring munin..."
 munin_server=$(config-get MUNIN_SERVER)

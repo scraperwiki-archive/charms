@@ -26,3 +26,8 @@ sh hooks/050_setup_custard.r.sh
 # Install git cache
 juju-log "Setting up git cache..."
 sh hooks/010_setup_git_daemon.r.sh
+
+juju-log "Installing redis..."
+add-apt-repository -y ppa:chris-lea/redis-server
+apt-get update >>/var/log/apt.update.log
+apt-get -y -qq install redis-server
