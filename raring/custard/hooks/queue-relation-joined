@@ -1,0 +1,4 @@
+#!/bin/sh
+REDIS_PASSWORD=$(relation-get password)
+sed -i.tmp -e "/export REDIS_PASSWORD/s/=.*/=$REDIS_PASSWORD/" /etc/init/custard.conf
+sed -i.tmp -e "/export REDIS_SERVER/s/=.*/=$JUJU_REMOTE_UNIT/" /etc/init/custard.conf
