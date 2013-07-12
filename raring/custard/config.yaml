@@ -97,6 +97,3 @@ options:
   MUNIN_SERVER:
     description: "IP of munin server to allow"
     type: string
-  REDIS_PASSWD:
-    description: "Password for Redis server"
-    type: string
