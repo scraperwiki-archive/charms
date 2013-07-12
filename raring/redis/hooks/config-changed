@@ -1,0 +1,4 @@
+#!/bin/sh
+
+PASSWORD=$(config-get password)
+sed -i.tmp -e '/^# *requirepass/s/# *//' -e "s/^\(requirepass\).*/\1 $PASSWORD/" /etc/redis/redis.conf
