@@ -1,0 +1,6 @@
+# Check syntax with:
+# python -c "import yaml;yaml.load(open('config.yaml'))"
+options:
+  password:
+    type: string
+    description: "A strong password used for authorising client connections"

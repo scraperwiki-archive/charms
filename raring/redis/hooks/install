@@ -1,0 +1,4 @@
+#!/bin/sh
+apt-get install -y redis-server
+sed -i.tmp -e '/^bind/d' /etc/redis/redis.conf
+open-port 6379/TCP

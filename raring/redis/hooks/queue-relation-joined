@@ -1,0 +1,3 @@
+#!/bin/sh
+PASSWORD=$(config-get password)
+relation-set password=$PASSWORD

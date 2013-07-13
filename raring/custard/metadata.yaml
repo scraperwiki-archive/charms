@@ -3,3 +3,5 @@ summary: "Datahub service"
 maintainer: "ScraperWiki <developers@scraperwiki.com>"
 description: |
   Installs Custard, nginx; relates to Custard.
+requires:
+  queue: redis

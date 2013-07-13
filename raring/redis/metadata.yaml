@@ -1,0 +1,8 @@
+name: redis
+summary: "Redis"
+maintainer: "ScraperWiki <developers@scraperwiki.com>"
+description: |
+  A redis master.
+provides:
+  queue: redis
+
