@@ -9,6 +9,12 @@ export HOSTNAME=${JUJU_UNIT_NAME/\//-}
 juju-log "Installing common software..."
 sh hooks/install_common.sh
 
+juju-log "Installing monit..."
+sh hooks/setup_monit.sh
+
+juju-log "Installing munin node..."
+sh hooks/install_munin.sh
+
 juju-log "Installing oidentd..."
 sh hooks/080_install_oidentd.r.sh
 juju-log "Installing node..."
@@ -56,7 +62,3 @@ fi
 
 juju-log "Linking passwd files to ${STORAGE_DIR}... things will break on upgrade"
 sh hooks/013_setup_global_passwd.r.sh
-
-
-juju-log "Installing monit..."
-sh hooks/setup_monit.sh

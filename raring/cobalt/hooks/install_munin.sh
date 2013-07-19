@@ -1,3 +1,3 @@
 #!/bin/sh
 
-apt-get install munin-node
+apt-get -qq install munin-node
