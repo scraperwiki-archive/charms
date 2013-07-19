@@ -16,7 +16,6 @@ pam_configure() {
   cp $HOOKS_HOME/config/pam.d-sshd /etc/pam.d/sshd
   cp $HOOKS_HOME/config/pam.d-su /etc/pam.d/su
   cp $HOOKS_HOME/config/pam_script_ses_open /usr/share/libpam-script
-  cp $HOOKS_HOME/config/pam_script_acct /usr/share/libpam-script
 
   sed -i "s:{{STORAGE_DIR}}:${STORAGE_DIR}:" /usr/share/libpam-script/pam_script_ses_open
 
