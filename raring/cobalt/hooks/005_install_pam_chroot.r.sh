@@ -24,6 +24,7 @@ pam_configure() {
   grep ^databox: /etc/group >/dev/null 2>&1 || groupadd -g 10000 databox
 
   mkdir -p /jails
+  mkdir -p /var/db
 }
 
 makejail() {
