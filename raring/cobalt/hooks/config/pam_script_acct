@@ -1,4 +1,0 @@
-#!/bin/sh
-# Need to sync these like this, as hardlinks won't work across filesystems
-cp /etc/passwd /opt/basejail/etc/passwd
-cp /etc/group /opt/basejail/etc/group

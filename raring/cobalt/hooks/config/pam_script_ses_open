@@ -1,28 +1,42 @@
-#!/bin/sh
-echo "$PAM_USER login" >> /tmp/status
+#!/bin/bash
+LOG=/var/log/pam_script.log
+echo "$PAM_USER login" >> $LOG
 
-case "$PAM_USER" in
-  "root" )
-     echo "root ignored" >> /tmp/status
-     exit 0
-  ;;
-esac
+groups=$(id -Gn "$PAM_USER")
+if [ "${groups#databox}" == "$groups" ]
+then
+  echo "$PAM_USER ignored" >> $LOG
+  exit 0
+fi
 
 mkdir -p /jails/$PAM_USER > /dev/null 2>&1
+
+have_mounts_changed=false
 
 # mount an fs if it's not already mounted
 trymount () {
   eval mount_dir=\${$#}
 
-  if ! grep -q "$mount_dir" /proc/mounts
+  if ! grep -qP "${mount_dir}\b" /var/db/mounts
   then
     mount "$@"
+    have_mounts_changed=true
   fi
-} >> /var/log/mount.log 2>&1
+} >> $LOG 2>&1
 
 trymount --bind /opt/basejail /jails/$PAM_USER
 trymount --bind /var/spool/cron/crontabs /jails/$PAM_USER/var/spool/cron/crontabs
-trymount --bind {{STORAGE_DIR}}/home/$PAM_USER /jails/$PAM_USER/home
+trymount --bind /ebs/home/$PAM_USER /jails/$PAM_USER/home
 trymount --bind /dev /jails/$PAM_USER/dev
-trymount devpts -t devpts /jails/$PAM_USER/dev/pts
-trymount proc -t proc /jails/$PAM_USER/proc
+trymount --bind /dev/pts /jails/$PAM_USER/dev/pts
+trymount --bind /proc /jails/$PAM_USER/proc
+
+if $have_mounts_changed
+then
+  echo "Mounts have changed..." >> $LOG
+  (
+    flock -w 2 9 || exit 99
+    cp /proc/mounts /var/db/mounts+
+    mv /var/db/mounts+ /var/db/mounts
+  ) 9>/var/db/mounts.lock
+fi
