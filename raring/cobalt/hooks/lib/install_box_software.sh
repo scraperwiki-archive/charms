@@ -96,7 +96,7 @@ END
   aptit mysql-client sqlite3 libsqlite3-dev libspatialite3
 
   blue "Installing Python debian packages"
-  aptit python-pip python-dev python3-dev swig
+  aptit python-pip python-dev python3-dev swig ipython
   aptit libgd2-xpm # force XPM version rather than no-XPM version as php5-gd needs it later
 
   # The below python packages have to be compiled if installed via pip, slowing things down
