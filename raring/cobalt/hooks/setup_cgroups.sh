@@ -29,7 +29,6 @@ end script
 script
     # get default options
     OPTIONS=""
-    CGRED_CONF=/etc/cgrules.conf
     if [ -r "/etc/default/cgred" ]; then
         . /etc/default/cgred
     fi
@@ -43,5 +42,8 @@ script
     exec /usr/sbin/cgrulesengd --nodaemon \$OPTIONS
 end script
 EOF
+
+touch ${STORAGE_DIR}/etc/cgrules.conf
+ln -s ${STORAGE_DIR}/etc/cgrules.conf /etc/cgrules.conf
 
 cgclear && cgconfigparser -l /etc/cgroups.conf
