@@ -34,20 +34,13 @@ script
         . /etc/default/cgred
     fi
 
-    # Don't run if no configuration file
-    if [ ! -s "$CGRED_CONF" ]; then
-        echo "Cgred unconfigured"
-        stop
-        exit 0
-    fi
-
     # Make sure the kernel supports cgroups
     # This check is retained from the original sysvinit job, but should
     # be superfluous since we depend on cgconfig running, which will
     # have mounted this.
     grep -q "^cgroup" /proc/mounts || { stop; exit 0; }
 
-    exec /usr/sbin/cgrulesengd --nodaemon $OPTIONS
+    exec /usr/sbin/cgrulesengd --nodaemon \$OPTIONS
 end script
 EOF
 
