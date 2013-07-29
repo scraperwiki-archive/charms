@@ -17,8 +17,8 @@ script
     export NODETIME_KEY=$(config-get NODETIME_KEY)
     export CO_NODETIME_APP="$(config-get CO_NODETIME_APP)"
     export CO_STORAGE_DIR="$(config-get CO_STORAGE_DIR)"
-    export REDIS_SERVER=
-    export REDIS_PASSWORD=
+    export REDIS_SERVER="$(cat /etc/cobalt/redis-server)"
+    export REDIS_PASSWORD="$(cat /etc/cobalt/redis-password)"
     cd /opt/cobalt &&
     . ./activate &&
     echo "Cobalt starting on port or socket $COBALT_PORT" &&

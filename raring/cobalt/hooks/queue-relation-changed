@@ -1,5 +1,14 @@
 #!/bin/sh
 REDIS_PASSWORD=$(relation-get password)
-sed -i.tmp -e "/export REDIS_PASSWORD/s/=.*/=$REDIS_PASSWORD/" /etc/init/cobalt.conf
 REDIS_SERVER=$(relation-get private-address)
+
+# Store in file, so that config-changed can read them.
+echo "$REDIS_PASSWORD" > /etc/cobalt/redis-password
+echo "$REDIS_SERVER" > /etc/cobalt/redis-server
+
+# Edit cobalt.conf on the fly.
+sed -i.tmp -e "/export REDIS_PASSWORD/s/=.*/=$REDIS_PASSWORD/" /etc/init/cobalt.conf
 sed -i.tmp -e "/export REDIS_SERVER/s/=.*/=$REDIS_SERVER/" /etc/init/cobalt.conf
+# restart server
+stop cobalt
+start cobalt
