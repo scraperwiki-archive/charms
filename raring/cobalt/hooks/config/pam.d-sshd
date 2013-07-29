@@ -41,4 +41,5 @@ session    required     pam_limits.so
 @include common-password
 
 session optional pam_script.so
+session optional pam_cgroup.sp
 session required pam_chroot.so debug use_groups
