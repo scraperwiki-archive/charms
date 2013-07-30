@@ -13,7 +13,7 @@ mkdir -p /jails/$PAM_USER > /dev/null 2>&1
 
 have_mounts_changed=false
 
-MemoryLimit=$((20*1024*1024))
+MemoryLimit=$((512*1024*1024))
 CpuTime=10000
 CpuPeriod=100000
 if [ ! -d /sys/fs/cgroup/cpu/$PAM_USER ]
@@ -24,6 +24,10 @@ echo $MemoryLimit > /sys/fs/cgroup/memory/$PAM_USER/memory.limit_in_bytes
 echo 12 > /sys/fs/cgroup/cpu/$PAM_USER/cpu.shares
 echo $CpuPeriod > /sys/fs/cgroup/cpu/$PAM_USER/cpu.cfs_period_us
 echo $CpuTime > /sys/fs/cgroup/cpu/$PAM_USER/cpu.cfs_quota_us
+
+echo $PPID > /sys/fs/cgroup/cpu/$PAM_USER/tasks
+echo $PPID > /sys/fs/cgroup/memory/$PAM_USER/tasks
+echo $PPID > /sys/fs/cgroup/cpuacct/$PAM_USER/tasks
 
 # mount an fs if it's not already mounted
 trymount () {
