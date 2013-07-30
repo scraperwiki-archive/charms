@@ -1,7 +1,13 @@
 #!/bin/bash
 LOG=/var/log/pam_script.log
+
+# Total limit over all processes in the cgroup
+MemoryLimit=$((512*1024*1024))
+
 echo "$PAM_USER login" >> $LOG
 
+# Check we're running as a databox (primary group), we don't want to accidentally
+# put our terminal into a cgroup (or create mounts that are meaningless)
 groups=$(id -Gn "$PAM_USER")
 if [ "${groups#databox}" == "$groups" ]
 then
@@ -11,29 +17,39 @@ fi
 
 mkdir -p /jails/$PAM_USER > /dev/null 2>&1
 
-have_mounts_changed=false
-
-MemoryLimit=$((512*1024*1024))
-CpuTime=10000
-CpuPeriod=100000
 if [ ! -d /sys/fs/cgroup/cpu/$PAM_USER ]
 then
   cgcreate -t $PAM_USER -g memory,cpu,cpuacct:$PAM_USER
 fi
-echo $MemoryLimit > /sys/fs/cgroup/memory/$PAM_USER/memory.limit_in_bytes
-echo 12 > /sys/fs/cgroup/cpu/$PAM_USER/cpu.shares
-echo $CpuPeriod > /sys/fs/cgroup/cpu/$PAM_USER/cpu.cfs_period_us
-echo $CpuTime > /sys/fs/cgroup/cpu/$PAM_USER/cpu.cfs_quota_us
 
+echo $MemoryLimit > /sys/fs/cgroup/memory/$PAM_USER/memory.limit_in_bytes
+
+# CPU share is form of priority. By specifying a low number here, we
+# ensure that important system services get a higher share of the CPU
+# and thus remain responsive.
+Priority=12
+echo $Priority > /sys/fs/cgroup/cpu/$PAM_USER/cpu.shares
+
+# 13/07/30 Peter and Chris thought about this and decided that it isn't
+# desirable. It may turn out to be useful later, but not set in this manner.
+
+# CpuTime=100000
+# CpuPeriod=100000
+# echo $CpuPeriod > /sys/fs/cgroup/cpu/$PAM_USER/cpu.cfs_period_us
+# echo $CpuTime > /sys/fs/cgroup/cpu/$PAM_USER/cpu.cfs_quota_us
+
+# Put the owning process (usually the "su -l" or cron child process)
+# into the cgroup (and therefore all of its future children)
 echo $PPID > /sys/fs/cgroup/cpu/$PAM_USER/tasks
 echo $PPID > /sys/fs/cgroup/memory/$PAM_USER/tasks
 echo $PPID > /sys/fs/cgroup/cpuacct/$PAM_USER/tasks
 
+have_mounts_changed=false
 # mount an fs if it's not already mounted
 trymount () {
   eval mount_dir=\${$#}
 
-  if ! grep -qP "${mount_dir}\b" /var/db/mounts
+  if ! grep -qw "${mount_dir}" /var/db/mounts
   then
     mount "$@"
     have_mounts_changed=true
