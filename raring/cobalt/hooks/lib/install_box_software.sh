@@ -200,6 +200,7 @@ python_extras() {
   pipit rdflib
   pipit robotexclusionrulesparser
   pipit gdata
+  pipit recurly
   pipit scrapely
   pipit scraperwiki
   pipit scrapy
