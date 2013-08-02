@@ -62,3 +62,6 @@ fi
 
 juju-log "Linking passwd files to ${STORAGE_DIR}... things will break on upgrade"
 sh hooks/013_setup_global_passwd.r.sh
+
+juju-log "Disabling mlocate..."
+chmod -x /etc/cron.daily/mlocate
