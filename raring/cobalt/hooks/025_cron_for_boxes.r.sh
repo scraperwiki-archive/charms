@@ -9,7 +9,6 @@ then
   cat << 'EOF' >> /etc/pam.d/cron
 session required pam_limits.so
 session required pam_script.so
-session optional pam_cgroup.so
 session required pam_chroot.so debug use_groups
 EOF
 fi

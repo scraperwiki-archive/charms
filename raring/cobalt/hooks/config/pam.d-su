@@ -61,5 +61,4 @@ auth       sufficient pam_rootok.so
 
 
 session optional pam_script.so onerr=success
-session optional pam_cgroup.so
 session required pam_chroot.so debug use_groups
