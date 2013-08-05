@@ -8,7 +8,11 @@ write_fstab() {
 }
 
 write_rclocal() {
-  sed -i 's:^exit 0:\nmount /proc\n&:g' "${1}etc/rc.local"
+  cat <<EOF > ${1}etc/rc.local
+mount /proc
+rm /var/db/mounts
+exit 0
+EOF
 }
 
 main () {
