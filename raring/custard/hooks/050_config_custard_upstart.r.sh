@@ -68,7 +68,7 @@ crons="$(crontab -l || true)"
 if ! echo "$crons" | grep -q deleted-datasets
 then
   # Add deleted-datasets cron line
-  line="*/5 * * * * sh /opt/custard/cron/deleted-datasets.sh"
+  line="*/5 * * * * sh /opt/custard/cron/delete-datasets.sh"
   (echo "$crons"; echo "$line") | crontab -
 fi
 
