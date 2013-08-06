@@ -63,7 +63,8 @@ npm install --production >>/var/log/npm.install.log 2>&1 | egrep -v "^$|^npm htt
 
 $gitdiff --stat master master@{1} 2>&1 | mail developers@scraperwiki.com -s "Custard has been deployed to $(hostname)"
 
-crons="$(crontab -l)"
+export USER="root"
+crons="$(crontab -l || true)"
 if ! echo "$crons" | grep -q deleted-datasets
 then
   # Add deleted-datasets cron line
