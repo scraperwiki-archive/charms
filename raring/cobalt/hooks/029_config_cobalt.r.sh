@@ -40,11 +40,11 @@ case $content in
   (*) printf '%s' "$content" > /etc/cobalt/allowed-ip ;;
 esac
 
-if ! (crontab -l) | grep -q deleted-datasets
+if ! crontab -l | grep -q deleted-datasets
 then
   # Add deleted-datasets cron line
   line="*/5 * * * * /opt/custard/cron/deleted-datasets.sh"
-  (crontab -l; echo "$line" ) | crontab -
+  echo "$(crontab -l; echo "$line")" | crontab -
 fi
 
 # Update what we have
