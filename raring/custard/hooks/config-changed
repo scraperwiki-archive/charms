@@ -4,7 +4,7 @@ export DEBIAN_FRONTEND=noninteractive
 
 # juju doesn't set this, but node-gyp requires it (probably).
 export HOME=${HOME:-~root}
-export INTERNAL_IP=$(/sbin/ifconfig | grep 'inet addr:10\.' | sed 's/.*addr:\([^ ]*\).*/\1/')
+export INTERNAL_IP="$(/sbin/ifconfig | grep 'inet addr:10\.' | sed 's/.*addr:\([^ ]*\).*/\1/')"
 
 juju-log "Configuring custard..."
 sh hooks/050_config_custard_upstart.r.sh
