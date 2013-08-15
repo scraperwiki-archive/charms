@@ -1,0 +1,12 @@
+#!/bin/sh
+
+if ! which nginx >/dev/null 2>&1
+then
+	echo "We're assuming you're going to run this on a server with nginx already installed. Sorry."
+	exit 1
+fi
+
+apt-get install -y uwsgi uwsgi-plugin-python
+apt-get install -y python-pip python-m2crypto python-lxml
+
+open-port 443/TCP
