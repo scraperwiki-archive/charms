@@ -8,6 +8,7 @@ pip install -r requirements.txt
 
 cd - # cd back to charm dir
 
+export RECURO_HOST="$(config-get RECURLY_HOST)"
 export RECURLY_API_KEY="$(config-get RECURLY_API_KEY)"
 export XERO_ACCOUNT_CODE="$(config-get XERO_ACCOUNT_CODE)"
 export XERO_CONSUMER_KEY="$(config-get XERO_CONSUMER_KEY)"
@@ -23,7 +24,7 @@ server {
      ssl_certificate_key  star_scraperwiki_com.key;
      listen 443;
      listen 80;
-     server_name recuro-dev.scraperwiki.com;
+     server_name ${RECURO_HOST};
      access_log /var/log/nginx/recuro.access.log;
      location / {
          include /etc/nginx/uwsgi_params;
