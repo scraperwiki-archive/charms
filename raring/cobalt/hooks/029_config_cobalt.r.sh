@@ -42,7 +42,7 @@ esac
 
 # Update what we have
 cd
-git pull || true
+git pull
 
 . ./activate || true
 npm install --production 2>&1 || true
