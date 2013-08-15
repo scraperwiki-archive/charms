@@ -39,9 +39,9 @@ fi)
 server {
   include mime.types;
 
-  listen 443 ssl;
+  listen 443 ssl default_server;
 $(if $DEV ; then cat <<EOF
-  listen 80;
+  listen 80 default_server;
 EOF
 fi)
 $(if $DEV ; then cat <<EOF
