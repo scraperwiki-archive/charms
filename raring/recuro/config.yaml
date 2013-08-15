@@ -17,3 +17,6 @@ options:
   XERO_RSA_KEY:
     type: string
     description: "Private RSA key"
+  RECURO_HOST:
+    type: string
+    description: "Server name for nginx"
