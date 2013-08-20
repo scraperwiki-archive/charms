@@ -35,7 +35,7 @@ mkdir -p /opt/basejail/tools/.ssh
 
 (
 
-flock -w 10 9 ${STORAGE_DIR}/etc/passwd.cobalt.lock ||
+flock -w 10 9 ||
   (juju-log "Couldn't obtain ${STORAGE_DIR}/etc/passwd.cobalt.lock during update" && exit 99)
 
 if ! egrep -q '^tools:' /etc/passwd
