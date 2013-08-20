@@ -33,4 +33,21 @@ mkdir -p /opt/basejail/tools/.ssh
 #tools:x:110:115::/opt/basejail/tools:/bin/bash
 #tools:x:115:
 
-config-get TOOLS_RSA_PUB > /opt/basejail/tools/.ssh/authorized_keys
+(
+
+flock -w 10 9 ${STORAGE_DIR}/etc/passwd.cobalt.lock ||
+  (juju-log "Couldn't obtain ${STORAGE_DIR}/etc/passwd.cobalt.lock during update" && exit 99)
+
+if ! egrep -q '^tools:' /etc/passwd
+then
+  echo "tools:x:2000:200::/opt/basejail/tools:/bin/false" >> /etc/passwd
+fi
+
+if ! egrep -q '^tools:' /etc/group
+then
+  echo "tools:x:2000:" >> /etc/group
+fi
+
+) 9>${STORAGE_DIR}/etc/passwd.cobalt.lock
+
+config-get TOOLS_RSA_PUB_KEY > /opt/basejail/tools/.ssh/authorized_keys

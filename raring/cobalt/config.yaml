@@ -27,6 +27,9 @@ options:
   SSL_KEY:
     description: "SSL private key"
     type: string
+  TOOLS_RSA_PUB_KEY:
+    description: "Public key for communicating updates to /tools from custard"
+    type: string
   EBS_VOLUME:
     description: "EBS volume to attach to (not currently used)"
     type: string

@@ -44,6 +44,9 @@ options:
   SSL_KEY:
     description: "SSL private key"
     type: string
+  TOOLS_RSA_KEY:
+    description: "Private SSH key for updating the /tools directory"
+    type: string
   EBS_VOLUME:
     description: "EBS volume to attach to (not currently used)"
     type: string
