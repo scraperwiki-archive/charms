@@ -81,6 +81,9 @@ export USER="root"
 crontab -l | grep -v deleted-datasets | crontab -
 
 mkdir -p /etc/custard
+
+touch /etc/custard/tools_rsa
+chmod 0600 /etc/custard/tools_rsa
 config-get TOOLS_RSA_KEY > /etc/custard/tools_rsa
 
 service custard stop > /dev/null 2>&1
