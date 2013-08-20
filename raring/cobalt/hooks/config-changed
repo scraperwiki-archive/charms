@@ -24,3 +24,13 @@ if ! grep -q $munin_server /etc/munin/munin-node.conf
 then
   echo "cidr_allow ${munin_server}/32" >> /etc/munin/munin-node.conf
 fi
+
+
+# TODO: add TOOLS_RSA and TOOLS_RSA_PUB to charms config
+#       probably a good time to cp all the charm configs for each service
+mkdir -p /opt/basejail/tools/.ssh
+# if not in files, add entries
+#tools:x:110:115::/opt/basejail/tools:/bin/bash
+#tools:x:115:
+
+config-get TOOLS_RSA_PUB > /opt/basejail/tools/.ssh/authorized_keys
