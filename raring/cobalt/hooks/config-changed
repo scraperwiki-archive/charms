@@ -40,7 +40,7 @@ flock -w 10 9 ||
 
 if ! egrep -q '^tools:' /etc/passwd
 then
-  echo "tools:x:2000:200::/opt/basejail/tools:/bin/false" >> /etc/passwd
+  echo "tools:x:2000:200::/home/tools:/bin/false" >> /etc/passwd
 fi
 
 if ! egrep -q '^tools:' /etc/group
@@ -50,4 +50,10 @@ fi
 
 ) 9>${STORAGE_DIR}/etc/passwd.cobalt.lock
 
-config-get TOOLS_RSA_PUB_KEY > /opt/basejail/tools/.ssh/authorized_keys
+mkdir -p /home/tools/.ssh /opt/basejail/tools
+chown -R tools:tools /home/tools /opt/basejail/tools
+ln -sf /opt/basejail/tools /tools
+{ echo -n 'command="rrsync /opt/basejail/tools" '; config-get TOOLS_RSA_PUB_KEY; } > /home/tools/.ssh/authorized_keys
+
+zcat /usr/share/doc/rsync/scripts/rrsync.gz > /usr/local/bin/rrsync
+chmod a+x /usr/local/bin/rrsync
