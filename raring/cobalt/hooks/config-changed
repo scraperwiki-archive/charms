@@ -53,7 +53,7 @@ fi
 mkdir -p /home/tools/.ssh /opt/basejail/tools
 chown -R tools:tools /home/tools /opt/basejail/tools
 ln -sf /opt/basejail/tools /tools
-{ echo 'command="rrsync /opt/basejail/tools" '; config-get TOOLS_RSA_PUB_KEY }> /home/tools/.ssh/authorized_keys
+{ echo -n 'command="rrsync /opt/basejail/tools" '; config-get TOOLS_RSA_PUB_KEY; } > /home/tools/.ssh/authorized_keys
 
 zcat /usr/share/doc/rsync/scripts/rrsync.gz > /usr/local/bin/rrsync
 chmod a+x /usr/local/bin/rrsync
