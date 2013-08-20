@@ -6,6 +6,8 @@ set -e
 cat <<EOF > /etc/init/custard.conf
 start on runlevel [2345]
 stop on runlevel [016]
+setuid custard
+setgid custard
 respawn
 
 script
@@ -48,6 +50,12 @@ end script
 
 EOF
 
+id -g custard > /dev/null || groupadd custard
+id -u custard > /dev/null || useradd -g custard -G www-data -d /opt/custard/ -s /bin/bash custard
+
+mkdir -p /var/run/custard/
+chown custard:custard /var/run/custard/
+
 # When sending email either send a diff (for incremental
 # deploys) or another message (for fresh deploys).
 gitdiff="git diff"
@@ -63,14 +71,14 @@ npm install --production >>/var/log/npm.install.log 2>&1 | egrep -v "^$|^npm htt
 
 $gitdiff --stat master master@{1} 2>&1 | mail developers@scraperwiki.com -s "Custard has been deployed to $(hostname)"
 
+cat <<EOF > /etc/cron.d/delete-datasets
+*/5 * * * * custard sh /opt/custard/cron/delete-datasets.sh
+EOF
+
+# Remove delete-datasets from roots cron if there
+# now handled by /etc/cron.d see above.
 export USER="root"
-crons="$(crontab -l || true)"
-if ! echo "$crons" | grep -q deleted-datasets
-then
-  # Add deleted-datasets cron line
-  line="*/5 * * * * sh /opt/custard/cron/delete-datasets.sh"
-  (echo "$crons"; echo "$line") | crontab -
-fi
+crontab -l | grep -v deleted-datasets | crontab -
 
 mkdir -p /etc/custard
 
