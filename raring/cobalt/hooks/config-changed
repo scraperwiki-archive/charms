@@ -52,6 +52,7 @@ fi
 
 mkdir -p /home/tools/.ssh /opt/basejail/tools
 chown -R tools:tools /home/tools /opt/basejail/tools
+chmod o-r /opt/basejail/tools
 [ -e /tools ] || ln -s /opt/basejail/tools /tools
 { echo -n 'command="rrsync /opt/basejail/tools" '; config-get TOOLS_RSA_PUB_KEY; } > /home/tools/.ssh/authorized_keys
 
