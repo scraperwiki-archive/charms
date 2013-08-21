@@ -10,7 +10,7 @@ H=${H%%.*}
 # charm-upgrade process).
 if [ ! -d hooks ]
 then
-  cd "/var/lib/juju/agents/$H/charm/"
+  cd "/var/lib/juju/agents/unit-$H/charm/"
 fi
 
 export HOOKS_HOME="$(pwd)/hooks"
