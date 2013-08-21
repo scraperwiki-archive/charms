@@ -1,6 +1,18 @@
 #!/bin/sh
 set -e
 
+# First component of hostname.
+H=$(hostname)
+H=${H%%.*}
+
+# Try and teleport to the right directory
+# (useful when the script is run outside the usual
+# charm-upgrade process).
+if [ ! -d hooks ]
+then
+  cd "/var/lib/juju/agents/$H/charm/"
+fi
+
 export HOOKS_HOME="$(pwd)/hooks"
 
 populate_jail() {
