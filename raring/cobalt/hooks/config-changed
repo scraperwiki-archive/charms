@@ -40,7 +40,7 @@ flock -w 10 9 ||
 
 if ! egrep -q '^tools:' /etc/passwd
 then
-  echo "tools:x:2000:200::/home/tools:/bin/false" >> /etc/passwd
+  echo "tools:x:2000:2000::/home/tools:/bin/bash" >> /etc/passwd
 fi
 
 if ! egrep -q '^tools:' /etc/group
