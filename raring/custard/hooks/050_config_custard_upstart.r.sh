@@ -77,6 +77,7 @@ mkdir -p /etc/custard
 touch /etc/custard/tools_rsa
 config-get TOOLS_RSA_KEY > /etc/custard/tools_rsa
 chmod 0600 /etc/custard/tools_rsa
+chmod ug=rx,o=x /opt/tools
 
 service custard stop > /dev/null 2>&1
 service custard start
