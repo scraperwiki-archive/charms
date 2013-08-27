@@ -22,7 +22,3 @@ juju-log "Setting up nginx..."
 sh hooks/015_setup_nginx.r.sh
 juju-log "Setting up custard..."
 sh hooks/050_setup_custard.r.sh
-
-# Install git cache
-juju-log "Setting up git cache..."
-sh hooks/010_setup_git_daemon.r.sh
