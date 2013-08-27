@@ -4,4 +4,4 @@ open-port 80
 open-port 113 # ident
 service custard start || true
 service nginx start || true
-restart git-daemon > /dev/null 2>&1 || start git-daemon > /dev/null 2>&1 || true
+start git-daemon > /dev/null 2>&1 || true

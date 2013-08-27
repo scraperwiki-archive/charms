@@ -9,4 +9,4 @@ script
 end script
 EOF
 
-restart git-daemon > /dev/null 2>&1 || start git-daemon > /dev/null 2>&1
+stop git-daemon > /dev/null 2>&1 || true; start git-daemon > /dev/null 2>&1
