@@ -51,7 +51,7 @@ end script
 EOF
 
 id -g custard > /dev/null || groupadd custard
-id -u custard > /dev/null || useradd -g custard -G www-data -d /opt/custard/ -s /bin/bash custard
+id -u custard > /dev/null || useradd --system -g custard -G www-data -d /opt/custard/ -s /bin/bash custard
 
 mkdir -p /var/run/custard/
 chown -R custard:custard /var/run/custard/
