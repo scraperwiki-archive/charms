@@ -56,6 +56,10 @@ id -u custard > /dev/null || useradd -g custard -G www-data -d /opt/custard/ -s 
 mkdir -p /var/run/custard/
 chown custard:custard /var/run/custard/
 
+# www-data should belong to custard group so that
+# nginx has access to the custard instance's socket.
+usermod -G www-data,custard www-data
+
 # When sending email either send a diff (for incremental
 # deploys) or another message (for fresh deploys).
 gitdiff="git diff"
