@@ -54,7 +54,7 @@ id -g custard > /dev/null || groupadd custard
 id -u custard > /dev/null || useradd -g custard -G www-data -d /opt/custard/ -s /bin/bash custard
 
 mkdir -p /var/run/custard/
-chown custard:custard /var/run/custard/
+chown -R custard:custard /var/run/custard/
 
 # www-data should belong to custard group so that
 # nginx has access to the custard instance's socket.
@@ -88,11 +88,12 @@ mkdir -p /etc/custard
 
 touch /etc/custard/tools_rsa
 config-get TOOLS_RSA_KEY > /etc/custard/tools_rsa
+chown -R custard:custard /etc/custard
 chmod 0600 /etc/custard/tools_rsa
 
 # Make tool repo directory
 mkdir -p /opt/tools
-chown custard:custard /opt/tools
+chown -R custard:custard /opt/tools
 chmod ug=rx,o=x /opt/tools
 
 service custard stop > /dev/null 2>&1
