@@ -4,5 +4,3 @@ export DEBIAN_FRONTEND=noninteractive
 
 export -p
 
-# Make tool repo directory
-mkdir -p /opt/tools

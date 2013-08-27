@@ -85,6 +85,10 @@ mkdir -p /etc/custard
 touch /etc/custard/tools_rsa
 config-get TOOLS_RSA_KEY > /etc/custard/tools_rsa
 chmod 0600 /etc/custard/tools_rsa
+
+# Make tool repo directory
+mkdir -p /opt/tools
+chown custard:custard /opt/tools
 chmod ug=rx,o=x /opt/tools
 
 service custard stop > /dev/null 2>&1
