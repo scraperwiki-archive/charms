@@ -32,7 +32,7 @@ server {
     add_header Cache-Control "must-revalidate";
     expires 0;
 
-    disable_symlinks if_not_owner from={{STORAGE_DIR}}/home/$box_name/http;
+    # disable_symlinks if_not_owner from={{STORAGE_DIR}}/home/$box_name/http;
 
     echo_before_body -n '$prefix';
     echo_after_body -n '$suffix';
@@ -53,7 +53,7 @@ server {
     add_header Cache-Control "must-revalidate";
     expires 0;
 
-    disable_symlinks if_not_owner from={{STORAGE_DIR}}/home/$box_name/http;
+    # disable_symlinks if_not_owner from={{STORAGE_DIR}}/home/$box_name/http;
 
     echo_before_body -n '$prefix';
     echo_after_body -n '$suffix';
