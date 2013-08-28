@@ -21,7 +21,27 @@ server {
       alias /opt/cobalt/container.html;
   }
 
+  location ~ '^\/(?<box_name>[^\s/]+)\/(?:(?<t>[0-9a-zA-Z]{10,30})\/)?http(?<path>\/.*)?\/$' {
+    root {{STORAGE_DIR}}/home/$box_name;
+    set_by_lua_file $prefix '/etc/nginx/lua/callback_prefix.lua';
+    set_by_lua_file $suffix '/etc/nginx/lua/callback_suffix.lua';
+
+    access_by_lua_file '/etc/nginx/lua/publish_token_access.lua';
+
+    add_header Pragma "no-cache";
+    add_header Cache-Control "must-revalidate";
+    expires 0;
+
+    disable_symlinks if_not_owner from={{STORAGE_DIR}}/home/$box_name/http;
+
+    echo_before_body -n '$prefix';
+    echo_after_body -n '$suffix';
+
+    try_files /http$path/index.html /tool/http$path/index.html =404;
+  }
+
   location ~ '^\/(?<box_name>[^\s/]+)\/(?:(?<t>[0-9a-zA-Z]{10,30})\/)?http(?:\/(?<p>.+)?)?$' {
+    root {{STORAGE_DIR}}/home/$box_name;
     set_by_lua_file $prefix '/etc/nginx/lua/callback_prefix.lua';
     set_by_lua_file $suffix '/etc/nginx/lua/callback_suffix.lua';
 
@@ -38,7 +58,7 @@ server {
     echo_before_body -n '$prefix';
     echo_after_body -n '$suffix';
 
-    alias {{STORAGE_DIR}}/home/$box_name/http/$p;
+    try_files /http/$p /tool/http/$p =404;
   }
   # redirect legacy URLs which have / in their box name - only for ones which have a publish token
   rewrite '^\/([^\s/]+)\/([^\s/]+)\/(?<w>([0-9a-zA-Z]{10,30}\/)http(?:\/(?<p>.+)?)?)$' /$1.$2/$w permanent;
