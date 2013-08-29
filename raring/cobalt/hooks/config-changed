@@ -19,6 +19,7 @@ juju-log "Configuring PAM..."
 cp hooks/config/pam.d-sshd /etc/pam.d/sshd
 cp hooks/config/pam.d-su /etc/pam.d/su
 cp hooks/config/pam_script_ses_open /usr/share/libpam-script
+cp hooks/config/pam_script_acct /usr/share/libpam-script
 
 if ! grep -q $munin_server /etc/munin/munin-node.conf
 then
