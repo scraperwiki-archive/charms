@@ -1,22 +1,9 @@
 # Check syntax with:
 # python -c "import yaml;yaml.load(open('config.yaml'))"
 options:
-  RECURLY_SUBDOMAIN:
+  MAILCHECK_PASSWORD:
     type: string
-    description: "Subdomain of your recurly account"
-  RECURLY_API_KEY:
-    type: string
-    description: "Recurly API key"
-  XERO_ACCOUNT_CODE:
-    type: string
-    description: "Xero account code where invoices should be placed in"
-  XERO_CONSUMER_KEY:
-    type: string
-  XERO_CONSUMER_SECRET:
-    type: string
-  XERO_RSA_KEY:
-    type: string
-    description: "Private RSA key"
+    description: "Password for mailcheck@scraperwiki.com"
   MAILCHECK_HOST:
     type: string
     description: "Server name for nginx"

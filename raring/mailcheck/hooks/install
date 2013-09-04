@@ -6,7 +6,9 @@ then
 	exit 1
 fi
 
-apt-get install -y uwsgi uwsgi-plugin-python
-apt-get install -y python-pip python-m2crypto python-lxml
+apt-add-repository -y ppa:duh/golang
+
+apt-get update -y
+apt-get install -y golang 
 
 open-port 443/TCP

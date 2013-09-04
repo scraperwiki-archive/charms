@@ -1,5 +1,5 @@
 name: mailcheck
-summary: "Integrate Recurly with Xero, somewhat."
+summary: "Monitor regular e-mail delivery from cobalt boxes (from cron) to mailcheck@scraperwiki.com"
 maintainer: "ScraperWiki <developers@scraperwiki.com>"
 description: |
   See summary

@@ -1,21 +1,15 @@
 #!/bin/sh
 
-cd /opt/mailcheck && git pull || {
-	git clone https://github.com/scraperwiki/mailcheck.git /opt/mailcheck
-	cd /opt/mailcheck
-}
-pip install -r requirements.txt
-
-cd - # cd back to charm dir
+(
+  export GOPATH=/opt/mailcheck/
+  go get -u github.com/scraperwiki/mailcheck
+  go install github.com/scraperwiki/mailcheck
+)
 
 export MAILCHECK_HOST="$(config-get MAILCHECK_HOST)"
-export RECURLY_API_KEY="$(config-get RECURLY_API_KEY)"
-export XERO_ACCOUNT_CODE="$(config-get XERO_ACCOUNT_CODE)"
-export XERO_CONSUMER_KEY="$(config-get XERO_CONSUMER_KEY)"
-export XERO_CONSUMER_SECRET="$(config-get XERO_CONSUMER_SECRET)"
-export XERO_RSA_KEY="$(config-get XERO_RSA_KEY)"
+export MAILCHECK_PASSWORD="$(config-get MAILCHECK_PASSWORD)"
 
-sh hooks/config/settings.py.sh > /opt/mailcheck/mailcheck_app/settings.py
+sh hooks/config/mailcheck-upstart.conf > /etc/init/mailcheck.conf
 
 cat <<EOF > /etc/nginx/sites-available/mailcheck
 server {
@@ -25,27 +19,17 @@ server {
      server_name ${MAILCHECK_HOST};
      access_log /var/log/nginx/mailcheck.access.log;
      location / {
-         include /etc/nginx/uwsgi_params;
-         uwsgi_pass unix:/run/uwsgi/app/mailcheck/socket;
+         proxy_pass              http://127.0.0.1:5983;
+         proxy_set_header        Host \$host;
+         proxy_set_header        X-Real-IP \$remote_addr;
+         proxy_set_header        X-Forwarded-For \$proxy_add_x_forwarded_for;
+         proxy_set_header        X-Forwarded-Host \$host;
+         proxy_set_header        X-Forwarded-Port \$server_port;
      }
 }
 EOF
 
 ln -s  /etc/nginx/sites-available/mailcheck /etc/nginx/sites-enabled/mailcheck || true
-
-cat <<EOF > /etc/uwsgi/apps-available/mailcheck.xml
-<uwsgi>
-    <plugin>python</plugin>
-    <module>mailcheck_app.wsgi</module>
-    <pythonpath>/opt/mailcheck</pythonpath>
-    <master/>
-    <processes>2</processes>
-</uwsgi>
-EOF
-
-
-ln -s  /etc/uwsgi/apps-available/mailcheck.xml /etc/uwsgi/apps-enabled/mailcheck.xml || true
-
 
 if pgrep nginx > /dev/null
 then
@@ -54,9 +38,3 @@ else
 	service nginx start
 fi
 
-if pgrep uwsgi > /dev/null
-then
-	service uwsgi reload
-else
-	service uswgi start
-fi
