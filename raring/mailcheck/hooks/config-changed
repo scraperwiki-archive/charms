@@ -1,0 +1,62 @@
+#!/bin/sh
+
+cd /opt/recuro && git pull || {
+	git clone https://github.com/scraperwiki/recuro.git /opt/recuro
+	cd /opt/recuro
+}
+pip install -r requirements.txt
+
+cd - # cd back to charm dir
+
+export RECURO_HOST="$(config-get RECURO_HOST)"
+export RECURLY_API_KEY="$(config-get RECURLY_API_KEY)"
+export XERO_ACCOUNT_CODE="$(config-get XERO_ACCOUNT_CODE)"
+export XERO_CONSUMER_KEY="$(config-get XERO_CONSUMER_KEY)"
+export XERO_CONSUMER_SECRET="$(config-get XERO_CONSUMER_SECRET)"
+export XERO_RSA_KEY="$(config-get XERO_RSA_KEY)"
+
+sh hooks/config/settings.py.sh > /opt/recuro/recuro_app/settings.py
+
+cat <<EOF > /etc/nginx/sites-available/recuro
+server {
+     ssl_certificate      star_scraperwiki_com.crt;
+     ssl_certificate_key  star_scraperwiki_com.key;
+     listen 443 ssl;
+     server_name ${RECURO_HOST};
+     access_log /var/log/nginx/recuro.access.log;
+     location / {
+         include /etc/nginx/uwsgi_params;
+         uwsgi_pass unix:/run/uwsgi/app/recuro/socket;
+     }
+}
+EOF
+
+ln -s  /etc/nginx/sites-available/recuro /etc/nginx/sites-enabled/recuro || true
+
+cat <<EOF > /etc/uwsgi/apps-available/recuro.xml
+<uwsgi>
+    <plugin>python</plugin>
+    <module>recuro_app.wsgi</module>
+    <pythonpath>/opt/recuro</pythonpath>
+    <master/>
+    <processes>2</processes>
+</uwsgi>
+EOF
+
+
+ln -s  /etc/uwsgi/apps-available/recuro.xml /etc/uwsgi/apps-enabled/recuro.xml || true
+
+
+if pgrep nginx > /dev/null
+then
+	service nginx reload
+else
+	service nginx start
+fi
+
+if pgrep uwsgi > /dev/null
+then
+	service uwsgi reload
+else
+	service uswgi start
+fi
