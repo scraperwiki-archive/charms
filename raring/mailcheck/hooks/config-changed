@@ -1,50 +1,50 @@
 #!/bin/sh
 
-cd /opt/recuro && git pull || {
-	git clone https://github.com/scraperwiki/recuro.git /opt/recuro
-	cd /opt/recuro
+cd /opt/mailcheck && git pull || {
+	git clone https://github.com/scraperwiki/mailcheck.git /opt/mailcheck
+	cd /opt/mailcheck
 }
 pip install -r requirements.txt
 
 cd - # cd back to charm dir
 
-export RECURO_HOST="$(config-get RECURO_HOST)"
+export MAILCHECK_HOST="$(config-get MAILCHECK_HOST)"
 export RECURLY_API_KEY="$(config-get RECURLY_API_KEY)"
 export XERO_ACCOUNT_CODE="$(config-get XERO_ACCOUNT_CODE)"
 export XERO_CONSUMER_KEY="$(config-get XERO_CONSUMER_KEY)"
 export XERO_CONSUMER_SECRET="$(config-get XERO_CONSUMER_SECRET)"
 export XERO_RSA_KEY="$(config-get XERO_RSA_KEY)"
 
-sh hooks/config/settings.py.sh > /opt/recuro/recuro_app/settings.py
+sh hooks/config/settings.py.sh > /opt/mailcheck/mailcheck_app/settings.py
 
-cat <<EOF > /etc/nginx/sites-available/recuro
+cat <<EOF > /etc/nginx/sites-available/mailcheck
 server {
      ssl_certificate      star_scraperwiki_com.crt;
      ssl_certificate_key  star_scraperwiki_com.key;
      listen 443 ssl;
-     server_name ${RECURO_HOST};
-     access_log /var/log/nginx/recuro.access.log;
+     server_name ${MAILCHECK_HOST};
+     access_log /var/log/nginx/mailcheck.access.log;
      location / {
          include /etc/nginx/uwsgi_params;
-         uwsgi_pass unix:/run/uwsgi/app/recuro/socket;
+         uwsgi_pass unix:/run/uwsgi/app/mailcheck/socket;
      }
 }
 EOF
 
-ln -s  /etc/nginx/sites-available/recuro /etc/nginx/sites-enabled/recuro || true
+ln -s  /etc/nginx/sites-available/mailcheck /etc/nginx/sites-enabled/mailcheck || true
 
-cat <<EOF > /etc/uwsgi/apps-available/recuro.xml
+cat <<EOF > /etc/uwsgi/apps-available/mailcheck.xml
 <uwsgi>
     <plugin>python</plugin>
-    <module>recuro_app.wsgi</module>
-    <pythonpath>/opt/recuro</pythonpath>
+    <module>mailcheck_app.wsgi</module>
+    <pythonpath>/opt/mailcheck</pythonpath>
     <master/>
     <processes>2</processes>
 </uwsgi>
 EOF
 
 
-ln -s  /etc/uwsgi/apps-available/recuro.xml /etc/uwsgi/apps-enabled/recuro.xml || true
+ln -s  /etc/uwsgi/apps-available/mailcheck.xml /etc/uwsgi/apps-enabled/mailcheck.xml || true
 
 
 if pgrep nginx > /dev/null

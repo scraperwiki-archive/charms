@@ -1,7 +1,7 @@
 # warning: shell used as a templating engine!
 
 cat <<EOF
-# Django settings for recuro_app project.
+# Django settings for mailcheck_app project.
 
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
@@ -101,10 +101,10 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'recuro_app.urls'
+ROOT_URLCONF = 'mailcheck_app.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'recuro_app.wsgi.application'
+WSGI_APPLICATION = 'mailcheck_app.wsgi.application'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
@@ -119,7 +119,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'recuro',
+    'mailcheck',
 )
 
 # A sample logging configuration. The only tangible logging
