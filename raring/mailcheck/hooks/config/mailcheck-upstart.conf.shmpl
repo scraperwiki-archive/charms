@@ -1,13 +1,17 @@
+
+cat <<EOF
+
 start on runlevel [2345]
 stop on runlevel [016]
 respawn
 
 script
     echo "Mailcheck starting"
-    exec /opt/mailcheck/bin/mailcheck -password=${MAILCHECK_PASSWORD} 
+    exec /opt/mailcheck/bin/mailcheck -password=${MAILCHECK_PASSWORD} -frequency=${MAILCHECK_FREQUENCY}
 end script
 
 post-stop script
     echo "Mailcheck stopped"
 end script
 
+EOF
