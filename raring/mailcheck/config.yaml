@@ -7,3 +7,6 @@ options:
   MAILCHECK_HOST:
     type: string
     description: "Server name for nginx"
+  MAILCHECK_FREQUENCY:
+    type: string
+    description: "Expected frequency of incoming e-mails (determines error condition)"
