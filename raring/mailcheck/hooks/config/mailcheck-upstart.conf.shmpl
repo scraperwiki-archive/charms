@@ -7,7 +7,7 @@ respawn
 
 script
     echo "Mailcheck starting"
-    exec /opt/mailcheck/bin/mailcheck -password=${MAILCHECK_PASSWORD} 
+    exec /opt/mailcheck/bin/mailcheck -password=${MAILCHECK_PASSWORD} -frequency=${MAILCHECK_FREQUENCY}
 end script
 
 post-stop script

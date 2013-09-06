@@ -8,6 +8,7 @@
 
 export MAILCHECK_HOST="$(config-get MAILCHECK_HOST)"
 export MAILCHECK_PASSWORD="$(config-get MAILCHECK_PASSWORD)"
+export MAILCHECK_FREQUENCY="$(config-get MAILCHECK_FREQUENCY)"
 
 sh hooks/config/mailcheck-upstart.conf.shmpl > /etc/init/mailcheck.conf
 
@@ -29,7 +30,7 @@ server {
 }
 EOF
 
-ln -s  /etc/nginx/sites-available/mailcheck /etc/nginx/sites-enabled/mailcheck || true
+ln -sf /etc/nginx/sites-available/mailcheck /etc/nginx/sites-enabled/mailcheck || true
 
 if pgrep nginx > /dev/null
 then
@@ -38,3 +39,4 @@ else
 	service nginx start
 fi
 
+service mailcheck restart
