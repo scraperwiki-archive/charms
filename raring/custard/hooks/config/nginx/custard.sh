@@ -90,7 +90,7 @@ fi)
   }
 
   location / {
-    proxy_pass http://unix:/var/run/custard.socket;
+    proxy_pass http://unix:/var/run/custard/custard.socket;
     proxy_set_header X-Real-Port \$remote_port;
     proxy_set_header X-Real-IP \$remote_addr;
     proxy_set_header X-Server-IP \$server_addr;

@@ -15,6 +15,9 @@ sh hooks/015_config_nginx.r.sh
 juju-log "Configuring munin..."
 munin_server=$(config-get MUNIN_SERVER)
 
+juju-log "Setting up git cache..."
+sh hooks/010_setup_git_daemon.r.sh
+
 if ! grep -q $munin_server /etc/munin/munin-node.conf
 then
     echo "cidr_allow ${munin_server}/32" >> /etc/munin/munin-node.conf
