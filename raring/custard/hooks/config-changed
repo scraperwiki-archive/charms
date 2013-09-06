@@ -1,5 +1,5 @@
 #!/bin/sh
-set -e
+set -e -x
 export DEBIAN_FRONTEND=noninteractive
 
 # juju doesn't set this, but node-gyp requires it (probably).
