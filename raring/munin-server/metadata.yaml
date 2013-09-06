@@ -1,0 +1,5 @@
+name: munin-server 
+summary: "Munin configuration"
+maintainer: "ScraperWiki <developers@scraperwiki.com>"
+description: |
+  Munin-server 
