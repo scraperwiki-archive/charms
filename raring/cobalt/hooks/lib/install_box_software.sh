@@ -89,8 +89,7 @@ END
   dpkg-divert  --local --divert /usr/bin/ack --rename --add /usr/bin/ack-grep
   aptit libxml2-dev libxslt1-dev libssl-dev libcurl4-openssl-dev geoip-bin libfreetype6-dev
   aptit nodejs coffeescript r-recommended tcc luarocks
-  aptit xvfb
-  aptit golang
+  aptit xvfb golang libreoffice
 
   blue "Installing databases"
   aptit mysql-client sqlite3 libsqlite3-dev libspatialite3
