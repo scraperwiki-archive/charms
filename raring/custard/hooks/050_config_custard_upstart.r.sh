@@ -96,5 +96,7 @@ mkdir -p /opt/tools
 chown -R custard:custard /opt/tools
 chmod ug=rwx,o=x /opt/tools
 
+chown -R custard:custard /opt/custard
+
 service custard stop > /dev/null 2>&1
 service custard start
