@@ -1,35 +1,6 @@
 #!/bin/bash
 LOG=/var/log/pam_script.log
 
-LOCKDIR=/var/db/pam_ses_open/
-LOCKFD=10
-TIMEOUT=10
-mkdir -p $LOCKDIR
-
-(
-if ! flock --timeout $TIMEOUT --exclusive $LOCKFD
-then
-  mail -s 'Monitoring: pam_ses_open lock timeout' monitoring@scraperwiki.com <<EOF
-HOST: $(hostname)
-\$0 \$@: $0 $@
-PAM_USER: '$PAM_USER'
-PAM_SERVICE: '$PAM_SERVICE'
-Entering PAM environment failed because lock timed out after ${TIMEOUT}s.
-
-Original developers assumed that this should not happen. Since it has,
-something has gone wrong.
-
-Possible causes:
-broken flock
-unexpectedly high system load
-
-git repo where this script lives:
-https://github.com/scraperwiki/charms/tree/master/raring/cobalt/hooks/config
-
-EOF
-  exit 1
-fi
-
 if which cgcreate 1> /dev/null 2>&1
 then
   # Total limit over all processes in the cgroup
@@ -76,34 +47,15 @@ then
   echo $PPID > /sys/fs/cgroup/cpuacct/$PAM_USER/tasks
 fi
 
-have_mounts_changed=false
-# mount an fs if it's not already mounted
-trymount () {
-  eval mount_dir=\${$#}
-
-  if ! grep -qw "${mount_dir}" /var/db/mounts
-  then
-    mount "$@"
-    have_mounts_changed=true
-  fi
+make_mount () {
+  mount --no-mtab --bind "$@"
 } >> $LOG 2>&1
 
-trymount --bind /opt/basejail /jails/$PAM_USER
-trymount --bind /var/spool/cron/crontabs /jails/$PAM_USER/var/spool/cron/crontabs
-trymount --bind /ebs/home/$PAM_USER /jails/$PAM_USER/home
-trymount --bind /dev /jails/$PAM_USER/dev
-trymount --bind /dev/pts /jails/$PAM_USER/dev/pts
-trymount --bind /proc /jails/$PAM_USER/proc
+JAILPATH="/jails/$PAM_USER"
 
-if $have_mounts_changed
-then
-  echo "Mounts have changed..." >> $LOG
-  (
-    flock -w 2 9 || exit 99
-    cp /proc/mounts /var/db/mounts+
-    mv /var/db/mounts+ /var/db/mounts
-  ) 9>/var/db/mounts.lock
-fi
-
-# 10 is LOCKFD (but in bash cannot write literal $LOCKFD)
-) 10>${LOCKDIR}/${PAM_USER}.lock
+make_mount --bind /opt/basejail             ${JAILPATH}
+make_mount --bind /var/spool/cron/crontabs  ${JAILPATH}/var/spool/cron/crontabs
+make_mount --bind /ebs/home/$PAM_USER       ${JAILPATH}/home
+make_mount --bind /dev                      ${JAILPATH}/dev
+make_mount --bind /dev/pts                  ${JAILPATH}/dev/pts
+make_mount --bind /proc                     ${JAILPATH}/proc
