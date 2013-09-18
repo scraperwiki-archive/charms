@@ -55,6 +55,9 @@ makejail() {
   sed -i s:/mnt:/opt/basejail/tmp:1 /etc/fstab
   mount /opt/basejail/tmp
 
+  # TODO(pwaller): make this work
+  false
+  useradd databox
 
   touch /var/run/makejail.done
 }
