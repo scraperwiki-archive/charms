@@ -1,23 +1,46 @@
 #!/bin/bash
+
+# Use ERR trap instead of set -e so that we can log an error to syslog
+# set -e
+
+function error_exit() {
+  log "$1:$2 failed, exit status $?"
+  exit 1
+}
+trap 'error_exit "${BASH_SOURCE}" "${LINENO}"' ERR
+
 LOG=/var/log/pam_script.log
+
+function log() {
+  logger -t "$0" "$@"
+  echo "$(date) $0: $@" >> $LOG
+}
+
+log "$PAM_USER login"
+
+# Check we're running as a databox (primary group), we don't want to accidentally
+# put our terminal into a cgroup (or create mounts that are meaningless)
+groups=$(id -Gn "$PAM_USER")
+case $groups in
+  *databox*)
+    ;;
+  *)
+    log "$PAM_USER ignored"
+    exit 0
+    ;;
+esac
+
+if [[ "$(readlink /proc/1/ns/mnt)" == "$(readlink /proc/self/ns/mnt)" ]]; then
+  log "ERROR, databox not in mount namespace: $(readlink /proc/self/ns/mnt)"
+  exit 1
+fi
+
+mkdir -p /jails/$PAM_USER > /dev/null 2>&1
 
 if which cgcreate 1> /dev/null 2>&1
 then
   # Total limit over all processes in the cgroup
   MemoryLimit=$((512*1024*1024))
-
-  echo "$PAM_USER login" >> $LOG
-
-  # Check we're running as a databox (primary group), we don't want to accidentally
-  # put our terminal into a cgroup (or create mounts that are meaningless)
-  groups=$(id -Gn "$PAM_USER")
-  if [ "${groups#databox}" == "$groups" ]
-  then
-    echo "$PAM_USER ignored" >> $LOG
-    exit 0
-  fi
-
-  mkdir -p /jails/$PAM_USER > /dev/null 2>&1
 
   if [ ! -d /sys/fs/cgroup/cpu/$PAM_USER ]
   then
@@ -48,8 +71,14 @@ then
 fi
 
 make_mount () {
-  mount --no-mtab --bind "$@"
-} >> $LOG 2>&1
+  OUTPUT="$(mount --no-mtab --bind "$@" 2>&1)"
+  STATUS=$?
+  if [ ! -z "$output" ] || [ $STATUS != 0 ]
+  then
+    log "unexpected error (status $STATUS) mounting $@: output: '$OUTPUT'"
+    exit 1
+  fi
+}
 
 JAILPATH="/jails/$PAM_USER"
 
