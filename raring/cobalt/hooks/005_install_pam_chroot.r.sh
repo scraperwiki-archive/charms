@@ -63,6 +63,23 @@ copy_sshd_config() {
   sed -i "s:{{STORAGE_DIR}}:${STORAGE_DIR}:" ${f}
 }
 
+check_jail_is_working() {
+  # su as a databox, ensure that the resulting session is namespaced differently
+  # than its parent.
+  PARENT="$(readlink /proc/self/ns/mnt)"
+  if ! JAILED="$(su -c 'readlink /proc/self/ns/mnt' pwaller)";
+  then
+    echo "${BASH_SOURCE}:${LINENO} Jailing test failed: databox user missing?" 1>&2
+    exit 1
+  fi
+  JAILSTATUS=$?
+
+  if [ "$JAILSTATUS" != 0 ] || [ "$PARENT" == "$JAILED" ];
+  then
+    echo "${BASH_SOURCE}:${LINENO} Jailing failed! Mount namespaces don't work!" 1>&2
+    exit 1
+  fi
+}
 
 main() {
   pam_install
@@ -70,6 +87,7 @@ main() {
   copy_sshd_config
   service ssh reload
   makejail /opt/basejail
+  check_jail_is_working
 }
 
 main
