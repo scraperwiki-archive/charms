@@ -14,10 +14,12 @@ pam_install() {
 
 pam_configure() {
   cp $HOOKS_HOME/config/pam.d-sshd /etc/pam.d/sshd
+  cp $HOOKS_HOME/config/pam.d-cron /etc/pam.d/cron
   cp $HOOKS_HOME/config/pam.d-su /etc/pam.d/su
-  cp $HOOKS_HOME/config/pam_script_ses_open /usr/share/libpam-script
+  mkdir -p /etc/scraperwiki/libpam-script
+  cp $HOOKS_HOME/config/pam_script_ses_open /etc/scraperwiki/libpam-script
 
-  sed -i "s:{{STORAGE_DIR}}:${STORAGE_DIR}:" /usr/share/libpam-script/pam_script_ses_open
+  sed -i "s:{{STORAGE_DIR}}:${STORAGE_DIR}:" /etc/scraperwiki/libpam-script/pam_script_ses_open
 
   # Configure chroot with a group
   echo '@databox                /jails/%u' > /etc/security/chroot.conf
@@ -44,9 +46,9 @@ makejail() {
   chmod 0 "$BASEJAIL/var/spool/cron/crontabs"
 
   # avoid pam_script erroring on session close
-  mkdir -p /opt/basejail/usr/share/libpam-script
-  echo '#!/bin/sh' > /opt/basejail/usr/share/libpam-script/pam_script_ses_close
-  chmod 755 /opt/basejail/usr/share/libpam-script/pam_script_ses_close
+  mkdir -p /opt/basejail/etc/scraperwiki/libpam-script
+  echo '#!/bin/sh' > /opt/basejail/etc/scraperwiki/libpam-script/pam_script_ses_close
+  chmod 755 /opt/basejail/etc/scraperwiki/libpam-script/pam_script_ses_close
 
   # Mount EC2 instance HD as basejail tmp directory
   umount /mnt
