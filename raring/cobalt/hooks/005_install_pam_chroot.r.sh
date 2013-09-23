@@ -55,9 +55,10 @@ makejail() {
   sed -i s:/mnt:/opt/basejail/tmp:1 /etc/fstab
   mount /opt/basejail/tmp
 
-  # TODO(pwaller): make this work
-  false
-  useradd databox
+  # Create user for testing mounts later
+  hooks/add_user.sh databox 2001 10000 /home/databox
+  mkdir ${STORAGE_DIR}/home/databox
+  chown databox:databox ${STORAGE_DIR}/home/databox
 
   touch /var/run/makejail.done
 }
@@ -72,7 +73,7 @@ check_jail_is_working() {
   # su as a databox, ensure that the resulting session is namespaced differently
   # than its parent.
   PARENT="$(readlink /proc/self/ns/mnt)"
-  if ! JAILED="$(su -c 'readlink /proc/self/ns/mnt' pwaller)";
+  if ! JAILED="$(su -c 'readlink /proc/self/ns/mnt' databox)";
   then
     echo "${BASH_SOURCE}:${LINENO} Jailing test failed: databox user missing?" 1>&2
     exit 1
