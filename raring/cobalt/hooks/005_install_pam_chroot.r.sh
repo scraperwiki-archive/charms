@@ -50,9 +50,10 @@ makejail() {
   echo '#!/bin/sh' > /opt/basejail/etc/scraperwiki/libpam-script/pam_script_ses_close
   chmod 755 /opt/basejail/etc/scraperwiki/libpam-script/pam_script_ses_close
 
-  # Mount EC2 instance HD as basejail tmp directory
-  umount /mnt
-  sed -i s:/mnt:/opt/basejail/tmp:1 /etc/fstab
+  # Mount EC2 instance HD as basejail tmp directory.
+  # Using '&&' makes this more idempotent.
+  umount /mnt &&
+  sed -i s:/mnt:/opt/basejail/tmp:1 /etc/fstab &&
   mount /opt/basejail/tmp
 
   # Create user for testing mounts later
