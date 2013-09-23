@@ -56,7 +56,7 @@ makejail() {
   sed -i s:/mnt:/opt/basejail/tmp:1 /etc/fstab &&
   mount /opt/basejail/tmp
 
-  # Create user for testing mounts later
+  # Create user for testing mounts later.
   hooks/add_user.sh databox 2001 10000 /home/databox
   mkdir ${STORAGE_DIR}/home/databox
   chown databox:databox ${STORAGE_DIR}/home/databox
