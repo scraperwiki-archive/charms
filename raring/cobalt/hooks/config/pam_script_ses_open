@@ -34,6 +34,8 @@ case $groups in
     ;;
 esac
 
+# Check that our mount namespace is different from the one that the system
+# init lives in. (did unshare() work?)
 if [[ "$(readlink /proc/1/ns/mnt)" == "$(readlink /proc/self/ns/mnt)" ]]; then
   log "ERROR, databox not in mount namespace: $(readlink /proc/self/ns/mnt)"
   exit 1
@@ -74,7 +76,9 @@ then
   echo $PPID > /sys/fs/cgroup/cpuacct/$PAM_USER/tasks
 fi
 
-make_mount () {
+make_bind_mount () {
+  DEST="$2"
+  mkdir -p "$DEST"
   OUTPUT="$(mount --no-mtab --bind "$@" 2>&1)"
   STATUS=$?
   if [ ! -z "$OUTPUT" ] || [ $STATUS != 0 ]
@@ -86,9 +90,9 @@ make_mount () {
 
 JAILPATH="/jails/$PAM_USER"
 
-make_mount --bind /opt/basejail             ${JAILPATH}
-make_mount --bind /var/spool/cron/crontabs  ${JAILPATH}/var/spool/cron/crontabs
-make_mount --bind /ebs/home/$PAM_USER       ${JAILPATH}/home
-make_mount --bind /dev                      ${JAILPATH}/dev
-make_mount --bind /dev/pts                  ${JAILPATH}/dev/pts
-make_mount --bind /proc                     ${JAILPATH}/proc
+make_bind_mount /opt/basejail             ${JAILPATH}
+make_bind_mount /var/spool/cron/crontabs  ${JAILPATH}/var/spool/cron/crontabs
+make_bind_mount /ebs/home/$PAM_USER       ${JAILPATH}/home
+make_bind_mount /dev                      ${JAILPATH}/dev
+make_bind_mount /dev/pts                  ${JAILPATH}/dev/pts
+make_bind_mount /proc                     ${JAILPATH}/proc
