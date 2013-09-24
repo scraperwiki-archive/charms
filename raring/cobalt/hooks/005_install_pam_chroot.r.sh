@@ -13,6 +13,7 @@ pam_install() {
 }
 
 pam_configure() {
+  cp $HOOKS_HOME/config/pam_unshare.so /lib/security/
   cp $HOOKS_HOME/config/pam.d-sshd /etc/pam.d/sshd
   cp $HOOKS_HOME/config/pam.d-cron /etc/pam.d/cron
   cp $HOOKS_HOME/config/pam.d-su /etc/pam.d/su
