@@ -48,8 +48,11 @@ makejail() {
 
   # avoid pam_script erroring on session close
   mkdir -p /opt/basejail/etc/scraperwiki/libpam-script
+
   echo '#!/bin/sh' > /opt/basejail/etc/scraperwiki/libpam-script/pam_script_ses_close
   chmod 755 /opt/basejail/etc/scraperwiki/libpam-script/pam_script_ses_close
+  echo '#!/bin/sh' > /etc/scraperwiki/libpam-script/pam_script_ses_close
+  chmod 755 /etc/scraperwiki/libpam-script/pam_script_ses_close
 
   # Mount EC2 instance HD as basejail tmp directory.
   # Using '&&' makes this more idempotent.
