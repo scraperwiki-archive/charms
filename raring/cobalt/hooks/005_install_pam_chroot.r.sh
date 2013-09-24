@@ -58,7 +58,7 @@ makejail() {
   mount /opt/basejail/tmp
 
   # Create user for testing mounts later.
-  hooks/add_user.sh databox 2001 10000 /home/databox
+  hooks/add_user.sh databox 2001 10000 /home
   mkdir ${STORAGE_DIR}/home/databox
   chown databox:databox ${STORAGE_DIR}/home/databox
 
