@@ -69,9 +69,10 @@ basejail_box_configuration() {
 
   # Mount EC2 instance HD as basejail tmp directory.
   # Using '&&' makes this more idempotent.
-  umount /mnt &&
+  (umount /mnt &&
   sed -i s:/mnt:/opt/basejail/tmp:1 /etc/fstab &&
   mount /opt/basejail/tmp
+  ) || true
 }
 
 copy_sshd_config() {
