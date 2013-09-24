@@ -16,7 +16,7 @@ trap 'error_exit "${BASH_SOURCE}" "${LINENO}"' ERR
 LOG=/var/log/pam_script.log
 
 function log() {
-  logger -t "$0" "$@"
+  logger --priority auth.info --tag "$0" "$@"
   echo "$(date) $0: $@" >> $LOG
 }
 
