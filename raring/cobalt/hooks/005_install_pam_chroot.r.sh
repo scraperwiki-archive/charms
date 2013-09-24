@@ -34,12 +34,20 @@ makejail() {
   BASEJAIL="$1"
   if [ -e /var/run/makejail.done ]
   then
-    echo "I think makejail was already successful, skipping"
-    return 0
+    echo "I think debootstrap was already successful, skipping"
+  else
+    apt-get -qq -y install debootstrap
+    debootstrap --variant=minbase $(lsb_release -c -s) "$BASEJAIL"
+    touch /var/run/makejail.done
   fi
-  apt-get -qq -y install debootstrap
-  debootstrap --variant=minbase $(lsb_release -c -s) "$BASEJAIL"
-  grep databox /etc/group >> $BASEJAIL/etc/group
+
+  basejail_box_configuration
+}
+
+
+basejail_box_configuration() {
+  grep databox "$BASEJAIL/etc/group" >/dev/null 2>/dev/null ||
+    grep databox /etc/group >> "$BASEJAIL/etc/group"
   echo "LANG=C.UTF-8" > "${BASEJAIL}/etc/default/locale"
 
   # make sure can only write crontabs to the mountpoint that is bound here
@@ -54,18 +62,16 @@ makejail() {
   echo '#!/bin/sh' > /etc/scraperwiki/libpam-script/pam_script_ses_close
   chmod 755 /etc/scraperwiki/libpam-script/pam_script_ses_close
 
+  # Create user for testing mounts later.
+  hooks/add_user.sh databox 2001 10000 /home
+  mkdir -p ${STORAGE_DIR}/home/databox
+  chown databox:databox ${STORAGE_DIR}/home/databox
+
   # Mount EC2 instance HD as basejail tmp directory.
   # Using '&&' makes this more idempotent.
   umount /mnt &&
   sed -i s:/mnt:/opt/basejail/tmp:1 /etc/fstab &&
   mount /opt/basejail/tmp
-
-  # Create user for testing mounts later.
-  hooks/add_user.sh databox 2001 10000 /home
-  mkdir ${STORAGE_DIR}/home/databox
-  chown databox:databox ${STORAGE_DIR}/home/databox
-
-  touch /var/run/makejail.done
 }
 
 copy_sshd_config() {
