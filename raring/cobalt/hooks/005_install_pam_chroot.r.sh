@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Lithium hook to set up PAM and chroot so that
 # jailed user accounts can be created.
 
