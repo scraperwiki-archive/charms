@@ -1,30 +1,9 @@
 #!/bin/sh
 set -e
 
-# TODO: move somewhere sane
-add_user() {
-  passwd_row="${1}:x:${2}:${3}::/nonexistent:/bin/sh"
-  shadow_row="${1}:x:15607:0:99999:7:::"
-  if [ -L /etc/passwd ]; then
-    passwd_file=$(readlink /etc/passwd)
-    shadow_file=$(readlink /etc/shadow)
-  else
-    passwd_file=/etc/passwd
-    shadow_file=/etc/shadow
-  fi
-
-  (
-     flock -w 2 9 || exit 99
-     { cat /etc/passwd ; echo "$passwd_row" ; } > /etc/passwd+
-     mv /etc/passwd+ $passwd_file
-     { cat /etc/shadow ; echo "$shadow_row" ; } > /etc/shadow+
-     mv /etc/shadow+ $shadow_file
-  ) 9>${CO_STORAGE_DIR}/etc/passwd.cobalt.lock
-}
-
 # force the uid of the postfix user, so it is same as in later used shared passwd file (on glusterfs)
 grep ^postfix: /etc/group >/dev/null 2>&1 || groupadd -g 502 postfix
-id -u postfix >/dev/null 2>&1 || add_user postfix 108 502
+id -u postfix >/dev/null 2>&1 || hooks/add_user.sh postfix 108 502 /nonexistent
 # we have to create the postdrop group too, or the Debian setup script for postfix gets confused
 grep ^postdrop: /etc/group >/dev/null 2>&1 || groupadd -g 500 postdrop
 
