@@ -1,52 +1,52 @@
 #!/bin/bash
+
+# We use (bash-specific) ERR trap instead of set -e,
+# so that we can log an error to syslog. (see help trap on bash
+# for details of ERR trap).
+# set -e
+
+function error_exit() {
+  log "$1:$2 failed, exit status $?"
+  exit 1
+}
+# Note that this trap is not used inside functions, and
+# make_mount() relies on this.
+trap 'error_exit "${BASH_SOURCE}" "${LINENO}"' ERR
+
 LOG=/var/log/pam_script.log
 
-LOCKDIR=/var/db/pam_ses_open/
-LOCKFD=10
-TIMEOUT=10
-mkdir -p $LOCKDIR
+function log() {
+  logger --priority auth.info --tag "$0" "$@"
+  echo "$(date) $0: $@" >> $LOG
+}
 
-(
-if ! flock --timeout $TIMEOUT --exclusive $LOCKFD
-then
-  mail -s 'Monitoring: pam_ses_open lock timeout' monitoring@scraperwiki.com <<EOF
-HOST: $(hostname)
-\$0 \$@: $0 $@
-PAM_USER: '$PAM_USER'
-PAM_SERVICE: '$PAM_SERVICE'
-Entering PAM environment failed because lock timed out after ${TIMEOUT}s.
+log "$PAM_USER login"
 
-Original developers assumed that this should not happen. Since it has,
-something has gone wrong.
+# Check we're running as a databox (primary group), we don't want to accidentally
+# put our terminal into a cgroup (or create mounts that are meaningless)
+groups=$(id -Gn "$PAM_USER")
+case $groups in
+  *databox*)
+    ;;
+  *)
+    log "$PAM_USER ignored"
+    exit 0
+    ;;
+esac
 
-Possible causes:
-broken flock
-unexpectedly high system load
-
-git repo where this script lives:
-https://github.com/scraperwiki/charms/tree/master/raring/cobalt/hooks/config
-
-EOF
+# Check that our mount namespace is different from the one that the system
+# init lives in. (did unshare() work?)
+if [[ "$(readlink /proc/1/ns/mnt)" == "$(readlink /proc/self/ns/mnt)" ]]; then
+  log "ERROR, databox not in mount namespace: $(readlink /proc/self/ns/mnt)"
   exit 1
 fi
+
+mkdir -p /jails/$PAM_USER > /dev/null 2>&1
 
 if which cgcreate 1> /dev/null 2>&1
 then
   # Total limit over all processes in the cgroup
   MemoryLimit=$((512*1024*1024))
-
-  echo "$PAM_USER login" >> $LOG
-
-  # Check we're running as a databox (primary group), we don't want to accidentally
-  # put our terminal into a cgroup (or create mounts that are meaningless)
-  groups=$(id -Gn "$PAM_USER")
-  if [ "${groups#databox}" == "$groups" ]
-  then
-    echo "$PAM_USER ignored" >> $LOG
-    exit 0
-  fi
-
-  mkdir -p /jails/$PAM_USER > /dev/null 2>&1
 
   if [ ! -d /sys/fs/cgroup/cpu/$PAM_USER ]
   then
@@ -76,34 +76,23 @@ then
   echo $PPID > /sys/fs/cgroup/cpuacct/$PAM_USER/tasks
 fi
 
-have_mounts_changed=false
-# mount an fs if it's not already mounted
-trymount () {
-  eval mount_dir=\${$#}
-
-  if ! grep -qw "${mount_dir}" /var/db/mounts
+make_bind_mount () {
+  DEST="$2"
+  mkdir -p "$DEST"
+  OUTPUT="$(mount --no-mtab --bind "$@" 2>&1)"
+  STATUS=$?
+  if [ ! -z "$OUTPUT" ] || [ $STATUS != 0 ]
   then
-    mount "$@"
-    have_mounts_changed=true
+    log "unexpected error (status $STATUS) mounting $@: output: '$OUTPUT'"
+    exit 1
   fi
-} >> $LOG 2>&1
+}
 
-trymount --bind /opt/basejail /jails/$PAM_USER
-trymount --bind /var/spool/cron/crontabs /jails/$PAM_USER/var/spool/cron/crontabs
-trymount --bind /ebs/home/$PAM_USER /jails/$PAM_USER/home
-trymount --bind /dev /jails/$PAM_USER/dev
-trymount --bind /dev/pts /jails/$PAM_USER/dev/pts
-trymount --bind /proc /jails/$PAM_USER/proc
+JAILPATH="/jails/$PAM_USER"
 
-if $have_mounts_changed
-then
-  echo "Mounts have changed..." >> $LOG
-  (
-    flock -w 2 9 || exit 99
-    cp /proc/mounts /var/db/mounts+
-    mv /var/db/mounts+ /var/db/mounts
-  ) 9>/var/db/mounts.lock
-fi
-
-# 10 is LOCKFD (but in bash cannot write literal $LOCKFD)
-) 10>${LOCKDIR}/${PAM_USER}.lock
+make_bind_mount /opt/basejail             ${JAILPATH}
+make_bind_mount /var/spool/cron/crontabs  ${JAILPATH}/var/spool/cron/crontabs
+make_bind_mount /ebs/home/$PAM_USER       ${JAILPATH}/home
+make_bind_mount /dev                      ${JAILPATH}/dev
+make_bind_mount /dev/pts                  ${JAILPATH}/dev/pts
+make_bind_mount /proc                     ${JAILPATH}/proc
