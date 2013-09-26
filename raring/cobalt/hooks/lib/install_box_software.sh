@@ -260,6 +260,8 @@ node_extras() {
   npmit async
   npmit zombie
   npmit moment
+  npmit cheerio
+
   echo "Finished Node extras"
 }
 
