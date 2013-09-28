@@ -99,7 +99,7 @@ END
   aptit libgd2-xpm # force XPM version rather than no-XPM version as php5-gd needs it later
 
   # The below python packages have to be compiled if installed via pip, slowing things down
-  aptit python-geoip graphviz python-nltk python-rpy2 python-poppler
+  aptit python-geoip graphviz python-nltk python-rpy2 python-poppler python-cairo
   aptit python-scipy python-numpy python-pandas python-imaging
   aptit python-lxml python-M2Crypto python-matplotlib python-levenshtein
   aptit python-creoleparser python-pycurl python-simplejson python-paramiko python-boto
