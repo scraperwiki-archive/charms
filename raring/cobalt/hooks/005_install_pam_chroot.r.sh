@@ -48,7 +48,7 @@ makejail() {
 basejail_box_configuration() {
   grep databox "$BASEJAIL/etc/group" >/dev/null 2>/dev/null ||
     grep databox /etc/group >> "$BASEJAIL/etc/group"
-  echo "LANG=C.UTF-8" > "${BASEJAIL}/etc/default/locale"
+  echo "LANG=en_US.utf8" > "${BASEJAIL}/etc/default/locale"
 
   # make sure can only write crontabs to the mountpoint that is bound here
   mkdir -p "$BASEJAIL/var/spool/cron/crontabs"

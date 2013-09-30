@@ -1,7 +1,6 @@
 #!/bin/sh
 set -e
 
-sh hooks/002_locale.r.sh
 sh hooks/005_secure_system.r.sh
 sh hooks/010_upgrade_packages.r.sh
 sh hooks/020_install_devops_utils.r.sh
