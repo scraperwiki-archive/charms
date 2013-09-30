@@ -10,7 +10,8 @@ set_nginx_config() {
   config-get SSL_KEY > ${ROOT_DIR}etc/nginx/star_scraperwiki_com.key
   CO_STORAGE_DIR=$(config-get CO_STORAGE_DIR)
 
-  cp hooks/config/nginx/boxes ${ROOT_DIR}etc/nginx/sites-available/boxes
+  cp hooks/config/nginx/boxes ${ROOT_DIR}etc/nginx/sites-available/
+  cp hooks/config/nginx/nginx.conf ${ROOT_DIR}etc/nginx/
 
   mkdir -p ${ROOT_DIR}etc/nginx/lua
   cp hooks/config/nginx/lua/publish_token_access.lua ${ROOT_DIR}etc/nginx/lua/publish_token_access.lua
