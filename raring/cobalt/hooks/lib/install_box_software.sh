@@ -75,11 +75,12 @@ debian_stuff () {
   aptit apt-utils lsb-core lsb-base software-properties-common
   add-apt-repository -y ppa:chris-lea/node.js # for latest node
 
-  blue "Upgrading Ubuntu packages, for security and update fixes"
+  blue "Upgrading Ubuntu packages, for security and update fixes, and our own PPA for poppler"
   cat <<END >/etc/apt/sources.list
   deb http://archive.ubuntu.com/ubuntu $(lsb_release -c -s) main universe
   deb http://archive.ubuntu.com/ubuntu $(lsb_release -c -s)-updates main universe
   deb http://archive.ubuntu.com/ubuntu $(lsb_release -c -s)-security main universe
+  deb http://ppa.launchpad.net/scraperwiki/$(lsb_release -c -s)-backports/ubuntu raring main 
 END
   apt-get update --assume-yes --quiet --quiet
   apt-get dist-upgrade --assume-yes --quiet --quiet
