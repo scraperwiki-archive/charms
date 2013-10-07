@@ -37,7 +37,7 @@ EOF
 fi)
 
 proxy_cache_path  /var/www/cache levels=1:2 keys_zone=my-cache:8m max_size=1000m inactive=600m;
-proxy_temp_path /var/www/cache/tmp; 
+proxy_temp_path /var/www/cache/tmp;
 
 server {
   include mime.types;
@@ -98,7 +98,6 @@ fi)
 
   # Redirects to Classic
   rewrite ^/browse https://classic.scraperwiki.com/browse/ permanent;
-  #rewrite ^/jobs https://classic.scraperwiki.com/jobs/ permanent;
   rewrite ^/events https://classic.scraperwiki.com/events/ permanent;
   rewrite ^/tags https://classic.scraperwiki.com/tags/ permanent;
   rewrite ^/scrapers/(.+) https://classic.scraperwiki.com/scrapers/\$1 permanent;
