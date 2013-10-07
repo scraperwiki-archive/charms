@@ -75,7 +75,7 @@ fi)
   # TODO DRY this up a bit
   resolver  8.8.8.8;
   location = / {
-      proxy_pass https://blog.scraperwiki.com/home/;
+      proxy_pass https://blog.scraperwiki.com/;
       proxy_cache my-cache;
       proxy_cache_valid 5m;
       proxy_cache_bypass \$http_x_really_get_it;
