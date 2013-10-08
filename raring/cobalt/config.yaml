@@ -2,6 +2,9 @@ options:
   CU_DB:
     type: string
     description: "MongoDB connection string"
+  STATUS_ENDPOINT:
+    type: string
+    description: "URL tools post to to set status of their dataset"
   NODE_ENV:
     default: staging
     type: string

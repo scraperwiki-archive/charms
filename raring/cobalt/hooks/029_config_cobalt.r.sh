@@ -32,6 +32,13 @@ end script
 
 EOF
 
+# scraperwiki-python reads this environment variable for the URL
+# to post status endpoint updates to
+cat >/etc/profile.d/scraperwiki-status-endpoint.sh <<END
+SW_STATUS_URL=$(config-get STATUS_ENDPOINT) 
+export SW_STATUS_URL
+END
+
 # Write ALLOWED_IP to alowed-ip file for cobalt to use.
 mkdir -p /etc/cobalt
 content=$(config-get ALLOWED_IP)
