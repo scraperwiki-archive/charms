@@ -14,6 +14,10 @@ set_nginx_config() {
     (*) export DEV=true ;;
   esac
 
+  mkdir -p /var/www/cache
+
+  chown www-data:www-data /var/www/cache
+
   sh hooks/config/nginx/custard.sh > ${ROOT_DIR}etc/nginx/sites-available/custard
 
   ln -fs ${ROOT_DIR}etc/nginx/sites-available/custard ${ROOT_DIR}etc/nginx/sites-enabled/custard
