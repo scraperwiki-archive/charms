@@ -36,6 +36,9 @@ server {
 EOF
 fi)
 
+proxy_cache_path  /var/www/cache levels=1:2 keys_zone=my-cache:8m max_size=1000m inactive=600m;
+proxy_temp_path /var/www/cache/tmp;
+
 server {
   include mime.types;
 
@@ -69,12 +72,26 @@ $(if ! $DEV ; then cat <<EOF
 EOF
 fi)
 
+  # TODO DRY this up a bit
+  resolver  8.8.8.8;
+  location = / {
+      proxy_pass https://blog.scraperwiki.com/;
+      proxy_cache my-cache;
+      proxy_cache_valid 5m;
+      proxy_cache_bypass \$http_x_really_get_it;
+  }
+  location ~ ^/(professional|jobs|tools/tablextract)/?$ {
+      proxy_pass https://blog.scraperwiki.com/\$1/;
+      proxy_cache my-cache;
+      proxy_cache_valid 5m;
+      proxy_cache_bypass \$http_x_really_get_it;
+  }
+
   # Redirects to professional services
   rewrite ^/(dataservices|data_hub|business|data_consultancy|dataconsulting) /professional/ permanent;
 
   # Redirects to Classic
   rewrite ^/browse https://classic.scraperwiki.com/browse/ permanent;
-  rewrite ^/jobs https://classic.scraperwiki.com/jobs/ permanent;
   rewrite ^/events https://classic.scraperwiki.com/events/ permanent;
   rewrite ^/tags https://classic.scraperwiki.com/tags/ permanent;
   rewrite ^/scrapers/(.+) https://classic.scraperwiki.com/scrapers/\$1 permanent;
