@@ -16,7 +16,7 @@ juju-log "Configuring munin..."
 munin_server=$(config-get MUNIN_SERVER)
 
 juju-log "Setting up git cache..."
-sh hooks/010_setup_git_daemon.r.sh
+sh hooks/060_setup_git_daemon.r.sh
 
 if ! grep -q $munin_server /etc/munin/munin-node.conf
 then
