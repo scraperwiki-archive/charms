@@ -228,7 +228,8 @@ php_extras() {
   blue "Installing PHP extras"
 
   # scraperwiki-php libraries stuff
-  echo "include_path = \".:/usr/share/php:/usr/share/pear:/usr/share/scraperwiki-php\"" >/etc/php5/conf.d/scraperwiki_python.ini
+  echo "include_path = \".:/usr/share/php:/usr/share/pear:/usr/share/scraperwiki-php\"
+allow_url_include = On" >/etc/php5/conf.d/scraperwiki_python.ini # LOL
   (
     cd /usr/share
     if [ ! -e scraperwiki-php ]
