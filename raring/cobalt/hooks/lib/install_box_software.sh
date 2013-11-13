@@ -187,6 +187,7 @@ python_extras() {
   pipit pyephem
   pipit pyrise
   pipit python-dateutil
+  pipit python-instagram
   pipit pygooglechart
   pipit pyhamcrest
   pipit pyPdf
