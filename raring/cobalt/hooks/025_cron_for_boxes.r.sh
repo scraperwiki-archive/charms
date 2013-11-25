@@ -21,7 +21,7 @@ rm -f /opt/basejail/etc/init/cron.conf
 
 # Create a mountpoint, and mount it, so that crontab works from within a box.
 mkdir -p /var/spool/cron/crontabs
-ses_open=/usr/share/libpam-script/pam_script_ses_open
+ses_open=/etc/scraperwiki/libpam-script/pam_script_ses_open
 if ! grep 'bind /var/spool/cron/crontabs' $ses_open > /dev/null
 then
   sed -i -e '/bind .opt.basejail/a\
