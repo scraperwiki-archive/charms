@@ -13,10 +13,17 @@ pam_install() {
 }
 
 pam_configure() {
+
+  rsync -r --delete $HOOKS_HOME/config/pam.d/ /etc/pam.d/
+
+  # Rsync instead
+  # cp $HOOKS_HOME/config/pam.d-sshd /etc/pam.d/sshd
+  # cp $HOOKS_HOME/config/pam.d-cron /etc/pam.d/cron
+  # cp $HOOKS_HOME/config/pam.d-su /etc/pam.d/su
+
+  # Install pam_unshare module
   cp $HOOKS_HOME/config/pam_unshare.so /lib/security/
-  cp $HOOKS_HOME/config/pam.d-sshd /etc/pam.d/sshd
-  cp $HOOKS_HOME/config/pam.d-cron /etc/pam.d/cron
-  cp $HOOKS_HOME/config/pam.d-su /etc/pam.d/su
+
   mkdir -p /etc/scraperwiki/libpam-script
   cp $HOOKS_HOME/config/pam_script_ses_open /etc/scraperwiki/libpam-script
 

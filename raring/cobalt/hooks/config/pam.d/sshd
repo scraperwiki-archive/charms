@@ -47,5 +47,5 @@ session    required     pam_limits.so
 # For information about this, refer to charms/docs/JAILS.md
 
 session optional pam_unshare.so databox
-session optional pam_script.so dir=/etc/scraperwiki/libpam-script/
+session required pam_script.so dir=/etc/scraperwiki/libpam-script/
 session required pam_chroot.so debug use_groups

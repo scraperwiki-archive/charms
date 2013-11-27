@@ -19,8 +19,9 @@ juju-log "Configuring munin..."
 munin_server=$(config-get MUNIN_SERVER)
 
 juju-log "Configuring PAM..."
-cp hooks/config/pam.d-sshd /etc/pam.d/sshd
-cp hooks/config/pam.d-su /etc/pam.d/su
+# cp hooks/config/pam.d-sshd /etc/pam.d/sshd
+# cp hooks/config/pam.d-su /etc/pam.d/su
+rsync -r --delete hooks/config/pam.d/ /etc/pam.d/
 cp hooks/config/pam_script_ses_open /etc/scraperwiki/libpam-script
 cp hooks/config/pam_script_acct /etc/scraperwiki/libpam-script
 
