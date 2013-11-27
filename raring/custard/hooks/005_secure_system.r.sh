@@ -6,3 +6,6 @@ sed -ri 's/^(:?#)?PasswordAuthentication yes/PasswordAuthentication no/g' /etc/s
 
 # Install and set up process accounting
 apt-get -qq install acct >>/var/log/apt-get.acct.log
+
+# Disable process accounting, generates large logs that we don't use.
+accton off &>>/var/log/apt-get.acct.log
