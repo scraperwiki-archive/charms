@@ -97,6 +97,9 @@ options:
   CU_REQUEST_EMAIL:
     type: string
     description: "email address to which requests are copied"
+  INTERCOM_SECRET_KEY:
+    type: string
+    description: "used for HMAC signing communications with Intercom.io"
   MUNIN_SERVER:
     description: "IP of munin server to allow"
     type: string
