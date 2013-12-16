@@ -34,6 +34,8 @@ script
     export CU_REQUEST_API_KEY=$(config-get CU_REQUEST_API_KEY)
     export CU_REQUEST_EMAIL=$(config-get CU_REQUEST_EMAIL)
     export INTERCOM_SECRET_KEY=$(config-get INTERCOM_SECRET_KEY)
+    export INTERCOM_APP_ID=$(config-get INTERCOM_APP_ID)
+    export INTERCOM_API_KEY=$(config-get INTERCOM_API_KEY)
     export REDIS_SERVER="$(cat /etc/custard/redis-server)"
     export REDIS_PASSWORD="$(cat /etc/custard/redis-password)"
 

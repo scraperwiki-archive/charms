@@ -99,7 +99,13 @@ options:
     description: "email address to which requests are copied"
   INTERCOM_SECRET_KEY:
     type: string
-    description: "used for HMAC signing communications with Intercom.io"
+    description: "used for HMAC signing client-side communications with Intercom.io"
+  INTERCOM_APP_ID:
+    type: string
+    description: "used for client and server-side communications with Intercom.io"
+  INTERCOM_API_KEY:
+    type: string
+    description: "used for server-side communications with Intercom.io"
   MUNIN_SERVER:
     description: "IP of munin server to allow"
     type: string
