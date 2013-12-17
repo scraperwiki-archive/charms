@@ -138,6 +138,9 @@ debian_extras() {
   touch /etc/ssh/sshd_not_to_be_run
   aptit openssh-server
 
+  blue "Setting up selenium"
+  aptit chromium-chromedriver xvfb
+
   echo "Finished Debian extras"
 
 }
