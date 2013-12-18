@@ -141,6 +141,7 @@ debian_extras() {
   blue "Setting up selenium"
   aptit chromium-chromedriver xvfb
   aptit firefox chromium-browser
+  aptit x11vnc
   # chromedriver was added by hand on 2013-12-18. We haven't
   # written instructions for doing it automatically yet.
 
