@@ -88,15 +88,6 @@ options:
   EXCEPTIONAL_KEY:
     type: string
     description: "Key for exceptional.io (lapsed)"
-  CU_REQUEST_BOX_URL:
-    type: string
-    description: "URL of box (into which the requests get written)"
-  CU_REQUEST_API_KEY:
-    type: string
-    description: "API key for the box"
-  CU_REQUEST_EMAIL:
-    type: string
-    description: "email address to which requests are copied"
   INTERCOM_SECRET_KEY:
     type: string
     description: "used for HMAC signing client-side communications with Intercom.io"
