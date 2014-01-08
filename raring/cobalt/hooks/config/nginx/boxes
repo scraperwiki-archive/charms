@@ -37,7 +37,18 @@ server {
     echo_before_body -n '$prefix';
     echo_after_body -n '$suffix';
 
-    try_files /http$path/index.html /tool/http$path/index.html =404;
+    # I have no idea why // works and / doesn't, but that's how it is.
+    try_files /http$path/index.html /tool/http$path/index.html /$box_name/$t/listing//;
+  }
+
+  # Provide /http/ directories with listings.
+  location ~ '^\/(?<box_name>[^\s/]+)\/(?:(?<t>[0-9a-zA-Z]{10,30})\/)?listing\/.*$' {
+    access_by_lua_file '/etc/nginx/lua/publish_token_access.lua';
+
+    fastcgi_param HTTP_COBALT_USER $box_name;
+
+    include /etc/nginx/fastcgi_params;
+    fastcgi_pass unix:/var/run/gobalt.socket;
   }
 
   location ~ '^\/(?<box_name>[^\s/]+)\/(?:(?<t>[0-9a-zA-Z]{10,30})\/)?http(?:\/(?<p>.+)?)?$' {
@@ -91,6 +102,15 @@ server {
     # so it goes last.
     include /etc/nginx/fastcgi_params;
     fastcgi_pass unix:/var/run/fcgiwrap.socket;
+  }
+
+  location ~ '^\/(?<box_name>[^\s/]+)\/(?:(?<t>[0-9a-zA-Z]{10,30})\/)?cgi-bin\/.*$' {
+    access_by_lua_file '/etc/nginx/lua/publish_token_access.lua';
+
+    fastcgi_param HTTP_COBALT_USER $box_name;
+
+    include /etc/nginx/fastcgi_params;
+    fastcgi_pass unix:/var/run/gobalt.socket;
   }
 
   location / {

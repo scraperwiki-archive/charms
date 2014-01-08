@@ -6,6 +6,9 @@ export STORAGE_DIR=$(config-get CO_STORAGE_DIR)
 juju-log "Configuring cobalt..."
 sh hooks/029_config_cobalt.r.sh
 
+juju-log "Configuring gobalt..."
+sh hooks/setup_gobalt.sh
+
 juju-log "Configuring sqlite api (dumptruck-web)..."
 sh hooks/040_setup_sqlite_api.r.sh
 
