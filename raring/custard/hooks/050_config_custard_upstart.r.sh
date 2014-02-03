@@ -11,6 +11,8 @@ setgid custard
 respawn
 
 script
+    cd /opt/custard &&
+    . ./activate
     export CU_DB=$(config-get CU_DB)
     export CU_PORT=$(config-get CU_PORT)
     export CU_SESSION_SECRET=$(config-get CU_SESSION_SECRET)
@@ -36,8 +38,6 @@ script
     export REDIS_SERVER="$(cat /etc/custard/redis-server)"
     export REDIS_PASSWORD="$(cat /etc/custard/redis-password)"
 
-    cd /opt/custard &&
-    . ./activate &&
     echo "Custard starting at \$(date --rfc-3339=seconds)" &&
     echo "Custard starting on port or socket \$CU_PORT" &&
     cake build &&
