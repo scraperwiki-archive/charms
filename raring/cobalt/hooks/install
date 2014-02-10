@@ -7,40 +7,48 @@ export JUJU_UNIT_NAME="$JUJU_UNIT_NAME"
 export HOSTNAME=${JUJU_UNIT_NAME/\//-}
 
 juju-log "Installing common software..."
-sh hooks/install_common.sh
+#sh hooks/002_locale.r.sh
+#sh hooks/005_secure_system.r.sh
+#sh hooks/010_upgrade_packages.r.sh
+#sh hooks/020_install_devops_utils.r.sh
+#sh hooks/030_set_hostname.r.sh
+#sh hooks/040_unattended_upgrades.r.sh
+#sh hooks/050_setup_mail_server.r.sh
 
-juju-log "Installing monit..."
-sh hooks/setup_monit.sh
+#apt-get install -y run-one
 
-juju-log "Installing munin node..."
-sh hooks/install_munin.sh
+#juju-log "Installing monit..."
+#apt-get install -qq monit >>/var/log/apt-get.monit.log 2>&1
 
-juju-log "Installing oidentd..."
-sh hooks/080_install_oidentd.r.sh
-juju-log "Installing node..."
-sh hooks/027_install_node.r.sh
+#juju-log "Installing munin node..."
+#sh hooks/install_munin.sh
+
+#juju-log "Installing oidentd..."
+#sh hooks/080_install_oidentd.r.sh
+#juju-log "Installing node..."
+#sh hooks/027_install_node.r.sh
 
 # Prepare chroot stuff
-juju-log "Make sure we have the correct EBS directory structure..."
-# make the crontab directory on the shared filesystem if not there
-mkdir -p ${STORAGE_DIR}/crontabs
-chown root:crontab ${STORAGE_DIR}/crontabs
-chmod 1770 ${STORAGE_DIR}/crontabs
+#juju-log "Make sure we have the correct EBS directory structure..."
+## make the crontab directory on the shared filesystem if not there
+#mkdir -p ${STORAGE_DIR}/crontabs
+#chown root:crontab ${STORAGE_DIR}/crontabs
+#chmod 1770 ${STORAGE_DIR}/crontabs
 
 # link it in
-rmdir /var/spool/cron/crontabs || true
-ln -s ${STORAGE_DIR}/crontabs /var/spool/cron/crontabs || true
-
-mkdir -p ${STORAGE_DIR}/sshkeys
-mkdir -p ${STORAGE_DIR}/etc
-mkdir -p ${STORAGE_DIR}/home
-
+#rmdir /var/spool/cron/crontabs || true
+#ln -s ${STORAGE_DIR}/crontabs /var/spool/cron/crontabs || true
+#
+#mkdir -p ${STORAGE_DIR}/sshkeys
+#mkdir -p ${STORAGE_DIR}/etc
+#mkdir -p ${STORAGE_DIR}/home
+#
 juju-log "Installing pam_chroot environment..."
 sh hooks/005_install_pam_chroot.r.sh
-juju-log "Setting up cron for chroot environment..."
-sh hooks/025_cron_for_boxes.r.sh
-juju-log "Hiding process IDs from chrooted users..."
-sh hooks/060_hide_process_ids.r.sh
+# juju-log "Setting up cron for chroot environment..."
+# sh hooks/025_cron_for_boxes.r.sh
+# juju-log "Hiding process IDs from chrooted users..."
+# sh hooks/060_hide_process_ids.r.sh
 juju-log "Setting up mail for chroot environment..."
 sh hooks/070_setup_chroot_mail.r.sh
 

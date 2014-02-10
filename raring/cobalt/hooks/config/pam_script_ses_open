@@ -92,7 +92,7 @@ JAILPATH="/jails/$PAM_USER"
 
 make_bind_mount /opt/basejail             ${JAILPATH}
 make_bind_mount /var/spool/cron/crontabs  ${JAILPATH}/var/spool/cron/crontabs
-make_bind_mount /ebs/home/$PAM_USER       ${JAILPATH}/home
+make_bind_mount {{STORAGE_DIR}}/home/$PAM_USER       ${JAILPATH}/home
 make_bind_mount /dev                      ${JAILPATH}/dev
 make_bind_mount /dev/pts                  ${JAILPATH}/dev/pts
 make_bind_mount /proc                     ${JAILPATH}/proc
