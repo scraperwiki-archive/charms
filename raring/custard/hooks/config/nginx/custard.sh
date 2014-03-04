@@ -81,7 +81,7 @@ fi)
       proxy_cache_bypass \$http_x_really_get_it;
       proxy_set_header User-Agent "SCRAPERWIKI-NGINX";
   }
-  location ~ ^/(professional|jobs|tools|tools/tablextract|tools/twitter|tools/tablextract-enterprise|about|contact|journalists|webxtract)/?$ {
+  location ~ ^/(professional|jobs|tools(/.*)?|services(/.*)?|solutions(/.*)?|about|contact|journalists|webxtract)/?$ {
       proxy_pass https://blog.scraperwiki.com/\$1/;
       proxy_cache my-cache;
       proxy_cache_valid 5m;
